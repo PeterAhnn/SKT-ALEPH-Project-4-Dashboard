@@ -1,9 +1,9 @@
 {
   "version": 1,
   "lastGood": {
-    "value": 19.5,
-    "observedAt": "2026-09-22T09:00:00+09:00",
-    "fetchedAt": "2026-09-22T00:14:21.391Z",
+    "value": 20,
+    "observedAt": "2026-09-22T09:15:00+09:00",
+    "fetchedAt": "2026-09-22T00:19:28.655Z",
     "kstDate": "2026-09-22",
     "sourceId": "open-meteo-seoul",
     "unit": "°C",
