@@ -1,10 +1,12 @@
-import {SOURCE,emptyState,validateState,fetchReading,applyReading,kstDate,previousKstDate,compareDays,FAILURE_CASES,replayFailure} from './core.mjs';
+import {SOURCE,emptyState,validateState,fetchWeather,normalizeWeatherPayload,applyReading,kstDate,previousKstDate,compareDays} from './core.mjs';
+import {createFixtureAdapter,FIXTURE_CASES,PACKAGE_ID} from './fixture-adapter.mjs';
+import {renderForecast,loadReviewEvidence} from './weather-view.mjs';
 
 const $ = (id) => document.getElementById(id);
-const STORAGE_KEY='seoul-daily-real-v1';
+const STORAGE_KEY='daegu-daily-real-v2';
 let archive=emptyState(), device=emptyState(), scope='public', status='loading', busy=true, labBusy=false;
 let statusTitle='공개 기록을 불러오는 중입니다', statusDetail='새 값을 받을 때까지 저장한 기록을 보존합니다.';
-let storageWarning='', archiveWarning='';
+let storageWarning='', archiveWarning='', weather=null, fixturesReady=false;
 const fmt=(value)=>Number(value).toFixed(1);
 const dateTime=(iso)=>iso?new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(iso)):'아직 없음';
 const timeOnly=(iso)=>new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(iso));
@@ -29,19 +31,19 @@ function render(){
  const age=last?Math.max(0,Math.floor((Date.now()-Date.parse(last.fetchedAt))/60000)):0;
  const stale=last&&Date.now()-Date.parse(last.observedAt)>2*60*60*1000;
  setText('value-caption',last?`${status==='success'&&!stale?'마지막 정상 수신값':'보관한 마지막 정상값'} · 수신 후 ${age<60?`${age}분`:`${Math.floor(age/60)}시간 ${age%60}분`}`:'아직 정상값이 없습니다. 임의의 값을 표시하지 않습니다.');
- setText('status-pill',status==='loading'?'조회 중':status==='error'?'새 값 수신 실패':stale?'오래된 보관값':status==='success'?'정상 수신':'보관 기록');
+ setText('status-pill',status==='loading'?'조회 중':status==='error'?(last?'오래된 값 · stale':'수신 실패 · 빈 상태'):stale?'오래된 보관값':status==='success'?'정상 수신 · fresh':'보관 기록');
  $('status-bar').dataset.state=status==='error'||stale?'error':status;
  setText('status-title',stale&&status==='success'?'기준 시각이 오래된 보관값입니다':statusTitle);
  setText('status-detail',stale&&status==='success'?'현재 값 새로 확인을 눌러 갱신하세요. 기존 기록은 유지합니다.':statusDetail);
  $('refresh').disabled=busy||labBusy;$('refresh').firstChild.textContent=busy?'현재 값 확인 중… ':'현재 값 새로 확인 ';
- document.querySelectorAll('#failure-buttons button, #run-all').forEach(button=>button.disabled=busy||labBusy);
+ document.querySelectorAll('.lab-panel button').forEach(button=>button.disabled=busy||labBusy||!fixturesReady);
  const comparison=compareDays(archive.days,today);
  $('delta').replaceChildren(document.createTextNode(comparison.available?signed(comparison.delta):'—'),Object.assign(document.createElement('span'),{textContent:'°C'}));
  setText('comparison-reason',comparison.available?'공개 기록에서 계산한 두 시점의 기온 차이입니다.':archive.days.some(x=>x.kstDate===today)?'어제 기록 없음 · 다음 실제 날짜의 기록을 기다립니다.':'오늘의 공개 기록이 없어 비교할 수 없습니다.');
  setText('previous-day',`${previousKstDate(today).slice(5).replace('-','.')} 어제`);setText('current-day',`${today.slice(5).replace('-','.')} 오늘`);
  const prev=archive.days.find(x=>x.kstDate===previousKstDate(today)),curr=archive.days.find(x=>x.kstDate===today);
  setText('previous-value',prev?`${fmt(prev.value)}°`:'—');setText('current-value',curr?`${fmt(curr.value)}°`:'—');
- setText('record-count',`${days.length}일 기록`);setText('history-note',scope==='public'?'실제 수집 후 공개 보관한 기록입니다. 시크릿 창에서도 같습니다.':'이 브라우저에서 받은 값입니다. 공개 관찰 증거와 별도로 저장됩니다.');
+ setText('record-count',`${days.length}일 기록`);setText('history-note',scope==='public'?'같은 날에는 최근 정상값으로 갱신합니다. 시크릿 창에서도 같은 공개 기록입니다.':'이 브라우저의 최근 정상값입니다. 같은 날 한 행으로 갱신하며 공개 관찰 증거와 분리됩니다.');
  $('public-tab').classList.toggle('selected',scope==='public');$('device-tab').classList.toggle('selected',scope==='device');$('public-tab').setAttribute('aria-pressed',scope==='public');$('device-tab').setAttribute('aria-pressed',scope==='device');
  $('history-body').replaceChildren();for(const day of [...days].reverse()){
    const tr=document.createElement('tr'), c=compareDays(days,day.kstDate);
@@ -59,15 +61,40 @@ function renderChart(days){
  for(const {d,x,y}of points){const circle=document.createElementNS(ns,'circle');circle.setAttribute('cx',x);circle.setAttribute('cy',y);circle.setAttribute('r',5);circle.setAttribute('class','dot');svg.append(circle);for(const [text,ty]of [[`${fmt(d.value)}°`,y-13],[d.kstDate.slice(5).replace('-','.'),115]]){const label=document.createElementNS(ns,'text');label.setAttribute('x',x);label.setAttribute('y',ty);label.setAttribute('text-anchor','middle');label.textContent=text;svg.append(label);}}
  container.append(svg);
 }
-async function refresh(){if(busy||labBusy)return;busy=true;status='loading';statusTitle='공개 원천에서 새 값을 확인하고 있습니다';statusDetail='최대 8초 기다립니다. 저장한 정상값과 일별 기록은 유지합니다.';render();try{const reading=await fetchReading();await persistDevice(reading);status='success';statusTitle='새 값을 정상적으로 받았습니다';statusDetail='현재 값은 이 브라우저에 저장됩니다. 공개 관찰 기록은 별도 수집·배포 시 갱신됩니다.';}catch(error){status='error';statusTitle=`현재 값을 받지 못했습니다 · ${error.code??'network'}`;statusDetail=`${error.message} ${latest()?'마지막 정상값과 기록을 유지합니다.':'아직 저장한 정상값이 없습니다.'} 현재 값 새로 확인으로 다시 시도하세요.`;}finally{busy=false;render();}}
-function setLab(title,message,label='합성 실패 재생',state='pass'){const box=$('lab-result');box.dataset.state=state;box.replaceChildren();for(const [tag,cls,text]of [['span','lab-result-label',label],['strong','',title],['p','',message]]){const e=document.createElement(tag);e.className=cls;e.textContent=text;box.append(e);}$('clear-lab').hidden=false;}
-async function runLab(ids){if(labBusy||busy)return;labBusy=true;const before=JSON.stringify({archive,device});const controls=[...document.querySelectorAll('#failure-buttons button'),$('run-all')];controls.forEach(x=>x.disabled=true);$('refresh').disabled=true;const results=[];try{for(const id of ids){const item=FAILURE_CASES.find(x=>x.id===id);setLab(`${item.title} 확인 중…`,'실제 저장 공간을 변경하지 않는 합성 응답입니다.','합성 재생 중','running');const result=await replayFailure(id,validateState(device.lastGood?device:archive));results.push({...result,title:item.title});}const preserved=before===JSON.stringify({archive,device})&&results.every(x=>x.preserved);const passed=preserved&&results.every((r,i)=>r.code===ids[i]);setLab(passed?(ids.length===1?`${results[0].title} · 정상값과 기록 보존`:'5 / 5 실패 재생 · 정상값과 기록 보존'):'재생 검사에서 확인이 필요한 결과가 있습니다',ids.length===1?`${results[0].message} 실제 기록 ${archive.days.length}일은 변경하지 않았습니다. ${latest()?'보관한 값을 계속 표시합니다.':'첫 정상값이 없어 빈 상태를 유지합니다.'}`:results.map(r=>`${r.title}: ${r.code}`).join(' · '),`자체 합성 검사 · ${passed?'통과':'확인 필요'}`,passed?'pass':'error');}catch(error){setLab('합성 검사 실행 실패',error.message,'실제 기록 유지','error');}finally{labBusy=false;controls.forEach(x=>x.disabled=false);$('refresh').disabled=false;}}
-for(const [index,item]of FAILURE_CASES.entries()){const button=document.createElement('button');button.textContent=`0${index+1} ${item.title}`;button.dataset.failure=item.id;button.setAttribute('aria-pressed','false');button.addEventListener('click',()=>{document.querySelectorAll('#failure-buttons button').forEach(x=>x.setAttribute('aria-pressed',x===button));runLab([item.id]);});$('failure-buttons').append(button);}
-$('refresh').addEventListener('click',refresh);$('run-all').addEventListener('click',()=>runLab(FAILURE_CASES.map(x=>x.id)));
-$('clear-lab').addEventListener('click',()=>{if(labBusy)return;setLab('실패해도, 기록은 남아야 하니까.','실제 원천 조회와 기록은 합성 검사와 별도로 유지합니다.','재생 대기','idle');$('clear-lab').hidden=true;document.querySelectorAll('#failure-buttons button').forEach(x=>x.setAttribute('aria-pressed','false'));});
+async function refresh(){
+ if(busy)return;busy=true;status='loading';statusTitle='대구의 현재 날씨와 예보를 확인하고 있습니다';statusDetail='최대 8초 기다립니다. 저장한 정상값과 일별 기록은 유지합니다.';render();
+ try{const result=await fetchWeather();await persistDevice(result.reading);weather=result;status='success';statusTitle='대구의 새 값을 정상적으로 받았습니다';statusDetail='이 브라우저에 최근 값을 저장합니다. 공개 일별 기록은 매일 09:20 KST 수집 후 갱신됩니다.';}
+ catch(error){status='error';statusTitle=`현재 값을 받지 못했습니다 · ${error.code??'network'}`;statusDetail=`${error.message} ${latest()?'마지막 정상값은 오래된 값으로 표시하고 기록을 유지합니다.':'저장한 정상값이 없어 빈 상태입니다.'} 다시 확인으로 재시도하세요.`;}
+ finally{busy=false;render();renderForecast(weather,status==='error');}
+}
+function renderLab(state){
+ const box=$('lab-result');box.replaceChildren();const error=state.status?.error_code,info=FIXTURE_CASES.find(x=>x.errorCode===error),stale=state.status?.freshness==='stale';
+ box.dataset.state=stale?'error':'pass';
+ const title=info?`${info.title} · 오래된 값 (stale)`:state.current_reading?'정상 수신 · fresh / none':'공식 합성 검사 준비 완료';
+ for(const [tag,cls,text]of [['span','lab-result-label',`공식 합성 상태 · ${state.status?`${state.status.freshness} / ${error}`:'초기화됨'}`],['strong','',title],['p','',info?`${info.description} ${info.action}${state.last_run.retry_after_seconds?` 최소 ${state.last_run.retry_after_seconds}초 대기.`:''}`:'D1-A → D1-B에서 한 행, D2에서 두 행을 확인합니다.']]){const e=document.createElement(tag);e.className=cls;e.textContent=text;box.append(e);}
+ const data=$('lab-reading');data.replaceChildren();const read=state.current_reading;
+ if(read){const strong=document.createElement('strong');strong.textContent=`합성 마지막 정상값 ${read.normalized_value} ${read.unit}`;data.append(strong);const line=document.createElement('p');line.textContent=`일별 ${state.daily_readings.length}행 · ${read.record_date} · ${stale?'오래된 값 보존':'fresh'}${state.last_comparison.state==='comparable'?` · 변화 +${state.last_delta} ${read.unit}`:''}`;data.append(line);for(const row of state.daily_readings){const p=document.createElement('p');p.className='small';p.textContent=`${row.record_date}: ${row.normalized_value} ${row.unit} · ID ${row.record_id}`;data.append(p);}}else data.textContent='합성 기록 0행 · 실제 대구 기록은 그대로 유지합니다.';
+}
+const adapter=createFixtureAdapter({onChange:renderLab});window.t04Adapter=adapter;
+async function labAction(action){if(labBusy||!fixturesReady)return;labBusy=true;render();try{await action();}catch(error){setText('lab-result',`공식 합성 재생을 완료하지 못했습니다. ${error.message}`);}finally{labBusy=false;render();}}
+for(const [index,item]of FIXTURE_CASES.entries()){const button=document.createElement('button');button.textContent=`0${index+1} ${item.title}`;button.dataset.failure=item.id;button.addEventListener('click',()=>labAction(()=>adapter.runFailure(item.id)));$('failure-buttons').append(button);}
+$('refresh').addEventListener('click',refresh);
+$('run-all').addEventListener('click',()=>labAction(async()=>{
+ const liveBefore=JSON.stringify({archive,device}),storedBefore=localStorage.getItem(STORAGE_KEY),results=[];
+ for(const item of FIXTURE_CASES){const s=await adapter.runFailure(item.id);results.push(s.status.freshness==='stale'&&s.status.error_code===item.errorCode&&s.current_reading.normalized_value===105&&s.daily_readings.length===1);}
+ await adapter.runFailure('T04-TIMEOUT');const recovered=await adapter.recover();results.push(recovered.status.freshness==='fresh'&&recovered.status.error_code==='none'&&recovered.daily_readings.length===2&&recovered.last_delta===15);
+ const unchanged=liveBefore===JSON.stringify({archive,device})&&storedBefore===localStorage.getItem(STORAGE_KEY);
+ const p=document.createElement('p');p.className='suite-result';p.textContent=`${results.every(Boolean)&&unchanged?'통과':'확인 필요'} · 실패 5종 + D2 복구 · 실제 기록 ${unchanged?'보존':'변경 감지'}`;$('lab-result').append(p);
+}));
+$('recover-lab').addEventListener('click',()=>labAction(()=>adapter.recover()));
+$('clear-lab').addEventListener('click',()=>labAction(()=>adapter.reset()));
+for(const [button,id]of [['normal-a','T04-NORMAL-D1-A'],['normal-b','T04-NORMAL-D1-B'],['normal-d2','T04-NORMAL-D2']])$(button).addEventListener('click',()=>labAction(()=>adapter.runFixture(id)));
+adapter.ready.then(()=>{fixturesReady=true;setText('package-status',`${PACKAGE_ID} · fixture 9종 SHA-256 확인`);renderLab(adapter.getState());render();}).catch(error=>{setText('package-status',`공식 자산을 확인하지 못했습니다: ${error.message}`);setText('lab-result','공식 검사 자료를 불러올 수 없습니다. 페이지를 다시 열어 주세요.');});
 $('public-tab').addEventListener('click',()=>{scope='public';render();});$('device-tab').addEventListener('click',()=>{scope='device';render();});
-$('export').addEventListener('click',()=>{const data=scope==='public'?archive:device;const blob=new Blob([JSON.stringify({scope:scope==='public'?'published-real-observations':'browser-local-not-published-evidence',exportedAt:new Date().toISOString(),source:SOURCE,...data},null,2)],{type:'application/json;charset=utf-8'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`seoul-${scope}-${kstDate(new Date().toISOString())}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
-const scheme=matchMedia('(prefers-color-scheme: dark)');let theme;try{theme=localStorage.getItem('seoul-theme');}catch{}function setTheme(value){document.documentElement.dataset.theme=value;$('theme').setAttribute('aria-label',value==='dark'?'밝은 화면으로 변경':'어두운 화면으로 변경');}setTheme(theme==='light'||theme==='dark'?theme:scheme.matches?'dark':'light');$('theme').addEventListener('click',()=>{theme=document.documentElement.dataset.theme==='dark'?'light':'dark';setTheme(theme);try{localStorage.setItem('seoul-theme',theme);}catch{}});scheme.addEventListener('change',()=>{if(!theme)setTheme(scheme.matches?'dark':'light');});
-$('source-link').href=SOURCE.url;readDevice();render();
+$('export').addEventListener('click',()=>{const data=scope==='public'?archive:device;const blob=new Blob([JSON.stringify({scope:scope==='public'?'published-real-observations':'browser-local-not-published-evidence',exportedAt:new Date().toISOString(),source:SOURCE,...data},null,2)],{type:'application/json;charset=utf-8'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`daegu-${scope}-${kstDate(new Date().toISOString())}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
+const scheme=matchMedia('(prefers-color-scheme: dark)');let theme;try{theme=localStorage.getItem('daegu-theme');}catch{}function setTheme(value){document.documentElement.dataset.theme=value;$('theme').setAttribute('aria-label',value==='dark'?'밝은 화면으로 변경':'어두운 화면으로 변경');}setTheme(theme==='light'||theme==='dark'?theme:scheme.matches?'dark':'light');$('theme').addEventListener('click',()=>{theme=document.documentElement.dataset.theme==='dark'?'light':'dark';setTheme(theme);try{localStorage.setItem('daegu-theme',theme);}catch{}});scheme.addEventListener('change',()=>{if(!theme)setTheme(scheme.matches?'dark':'light');});
+$('source-link').href=SOURCE.url;readDevice();render();renderForecast(null);
 try{const response=await fetch('./data/observations.json',{cache:'no-store',signal:AbortSignal.timeout(8000)});if(!response.ok)throw new Error('archive');archive=validateLoadedState(await response.json());}catch{archiveWarning='공개 관찰 기록을 불러오지 못했습니다. 일별 기록을 확인하려면 페이지를 다시 여세요. 브라우저의 기존 기록은 유지합니다.';}
-busy=false;render();await refresh();setInterval(render,60000);
+try{const response=await fetch('./data/weather.json',{cache:'no-store',signal:AbortSignal.timeout(8000)});if(response.ok){const saved=await response.json();if(Date.parse(saved.fetchedAt)>Date.now()+300000)throw new Error('Future forecast timestamp');weather=normalizeWeatherPayload(saved.payload,saved.fetchedAt);renderForecast(weather);}}catch{/* Current temperature and daily records stay usable if the forecast snapshot is unavailable. */}
+busy=false;render();await Promise.allSettled([refresh(),loadReviewEvidence()]);setInterval(render,60000);
+setInterval(()=>{if(document.visibilityState==='visible'&&!busy&&!labBusy)refresh();},600000);

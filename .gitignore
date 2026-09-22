@@ -5,6 +5,7 @@ dist/
 .env*
 *.tmp
 qa/
+public/data/collect.lock
 
 .vercel
 .env*
