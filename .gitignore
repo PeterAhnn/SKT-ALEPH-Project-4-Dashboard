@@ -1,0 +1,10 @@
+.gstack/
+.vercel/
+node_modules/
+dist/
+.env*
+*.tmp
+qa/
+
+.vercel
+.env*

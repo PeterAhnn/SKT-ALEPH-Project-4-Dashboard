@@ -1,0 +1,7 @@
+.gstack
+.git
+.env*
+qa
+docs
+HANDOFF.md
+SKT-ALEPH-project-guide.md

@@ -1,0 +1,16 @@
+{
+  "kind": "real-public-fetch",
+  "sourceUrl": "https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.9780&current=temperature_2m&timezone=Asia%2FSeoul&forecast_days=1",
+  "fetchedAt": "2026-09-22T00:14:21.391Z",
+  "reading": {
+    "value": 19.5,
+    "observedAt": "2026-09-22T09:00:00+09:00",
+    "fetchedAt": "2026-09-22T00:14:21.391Z",
+    "kstDate": "2026-09-22",
+    "sourceId": "open-meteo-seoul",
+    "unit": "°C",
+    "kind": "real"
+  },
+  "responseSha256": "67ad3633393e1345e6578834d4121515cf66cd264553be454a2d217ba5b11455",
+  "responseText": "{\"latitude\":37.55,\"longitude\":127.0,\"generationtime_ms\":0.03314018249511719,\"utc_offset_seconds\":32400,\"timezone\":\"Asia/Seoul\",\"timezone_abbreviation\":\"GMT+9\",\"elevation\":34.0,\"current_units\":{\"time\":\"iso8601\",\"interval\":\"seconds\",\"temperature_2m\":\"°C\"},\"current\":{\"time\":\"2026-09-22T09:00\",\"interval\":900,\"temperature_2m\":19.5}}"
+}

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="서울의 기온을 매일 기록합니다. 데이터가 오지 않는 순간까지 솔직하게 보여주는 오늘의 정보판.">
+  <meta name="color-scheme" content="light dark"><title>오늘의 서울 · 매일의 기온 기록</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23ccf46f'/%3E%3Ccircle cx='32' cy='32' r='13' fill='%23203229'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./style.css"><script type="module" src="./app.mjs"></script>
+</head>
+<body>
+<a class="skip" href="#main">본문으로 이동</a>
+<div class="shell">
+  <header class="topbar"><a class="brand" href="./"><span class="brandmark" aria-hidden="true">◒</span> 오늘의 서울<span class="brand-en">SEOUL, DAILY</span></a><div class="header-actions"><span class="time-label" id="today-label">KST</span><button class="icon-button" id="theme" aria-label="화면 테마 변경">◐</button></div></header>
+  <main id="main">
+    <div class="intro"><div><p class="eyebrow">매일 하나의 값, 솔직한 기록</p><h1>오늘의 기온을<br>내일의 기록으로.</h1><p class="intro-copy">잘 도착한 데이터도, 도착하지 않은 이유도.<br class="mobile-break"> 서울의 변화를 차곡차곡 남깁니다.</p></div><div class="edition"><span>DAILY OBSERVATION</span><strong>37.5665° N<br>126.9780° E</strong><small>서울 · 중구 기준 좌표</small></div></div>
+    <section class="current-grid" aria-label="현재 기온과 어제 비교">
+      <article class="weather-card"><div class="card-top"><span class="label">서울 현재 기온</span><span class="status-pill" id="status-pill">확인 준비 중</span></div><div class="temperature-row"><div><div class="temperature"><span id="temperature">—</span><span class="degree">°C</span></div><p id="value-caption">원천에서 받은 정상값을 기다립니다.</p></div><div class="sun-art" aria-hidden="true"><div class="sun"></div><div class="horizon"></div><div class="horizon second"></div></div></div><div class="weather-bottom"><div><span class="tiny-label">원천 기준 시각 · KST</span><strong id="observed-at">아직 없음</strong></div><div><span class="tiny-label">마지막 정상 수신 · KST</span><strong id="fetched-at">아직 없음</strong></div></div><p class="source-note">Open-Meteo 기상 모델 기반 · 지상 2m 기온 · 실측 관측소 값과 다를 수 있습니다.</p></article>
+      <article class="compare-card"><p class="eyebrow">YESTERDAY → TODAY</p><h2>어제와 비교하면</h2><div id="delta" class="delta">—<span>°C</span></div><p id="comparison-reason">어제와 오늘의 공개 기록을 확인합니다.</p><div class="comparison-points"><div><span id="previous-day">어제</span><strong id="previous-value">—</strong></div><span class="arrow" aria-hidden="true">→</span><div><span id="current-day">오늘</span><strong id="current-value">—</strong></div></div><p class="muted small">각 날짜의 첫 정상 수집값끼리 비교합니다.<br>하루 평균이나 최고 기온의 차이는 아닙니다.</p></article>
+    </section>
+    <section class="status-bar" id="status-bar" aria-live="polite"><div class="status-symbol" aria-hidden="true">↗</div><div><strong id="status-title">공개 기록을 불러오는 중입니다</strong><p id="status-detail">새 값을 받을 때까지 저장한 기록을 보존합니다.</p></div><button class="button dark" id="refresh">현재 값 새로 확인 <span aria-hidden="true">↻</span></button></section>
+    <p class="storage-notice" id="storage-notice" role="status" hidden></p>
+    <div class="lower-grid">
+      <section class="panel history-panel" aria-labelledby="history-heading"><div class="section-heading"><div><p class="eyebrow">THE DAILY LOG</p><h2 id="history-heading">하루에 한 줄</h2></div><span class="count-badge" id="record-count">0일 기록</span></div><div class="tabs" role="group" aria-label="기록 범위"><button id="public-tab" class="selected" aria-pressed="true">공개 관찰 기록</button><button id="device-tab" aria-pressed="false">이 브라우저 기록</button></div><p class="muted small" id="history-note">실제 수집 후 공개 보관한 기록입니다. 시크릿 창에서도 같습니다.</p><div id="chart" class="chart" aria-label="일별 기온 기록"></div><div class="table-wrap"><table><caption class="sr-only">날짜별 기온과 수집 시각</caption><thead><tr><th scope="col">날짜 · KST</th><th scope="col">기온</th><th scope="col">수집 시각</th><th scope="col">전날 대비</th></tr></thead><tbody id="history-body"></tbody></table></div><div class="empty" id="empty-history" hidden>첫 기록을 기다리고 있어요.<br><span>실제로 도착한 값만 이곳에 남깁니다.</span></div><div class="history-footer"><span id="evidence-progress">실제 날짜 관찰 0 / 2일</span><button class="text-button" id="export">기록 내려받기 ↓</button></div></section>
+      <section class="panel lab-panel" aria-labelledby="lab-heading"><div class="section-heading"><div><p class="eyebrow">WHEN DATA DOESN’T ARRIVE</p><h2 id="lab-heading">데이터가 안 온다면?</h2></div><span class="lab-tag">합성 재생</span></div><p class="muted">다섯 가지 실패를 눌러 확인해 보세요.<br>실제 기온과 일별 기록은 그대로 남습니다.</p><div id="failure-buttons" class="failure-buttons"></div><div class="lab-result" id="lab-result" aria-live="polite"><span class="lab-result-label">재생 대기</span><strong>실패해도, 기록은 남아야 하니까.</strong><p>통신 실패부터 오래된 값까지 같은 데이터 검사 경로로 재생합니다.</p></div><div class="lab-actions"><button class="text-button" id="run-all">5종 한 번에 확인 ↗</button><button class="text-button" id="clear-lab" hidden>재생 닫기</button></div><p class="lab-footnote">자체 합성 검사 초안입니다. 과제 공식 검사 꾸러미 대조는 대기 중입니다.</p></section>
+    </div>
+    <section class="trust-strip" aria-label="데이터 원칙"><div><span class="trust-number">01</span><h3>출처가 있는 값</h3><p>서울 기준 좌표의 공개 모델 자료를 사용합니다. 개인 위치는 수집하지 않습니다.</p><a href="https://open-meteo.com/en/docs" target="_blank" rel="noopener noreferrer">Open-Meteo 원천 설명 ↗</a></div><div><span class="trust-number">02</span><h3>시간까지 남긴 기록</h3><p>원천 시각과 수집 시각을 구분합니다. 2시간 넘게 지난 값은 새 정상값으로 저장하지 않습니다.</p><a id="source-link" target="_blank" rel="noopener noreferrer">현재 원천 응답 보기 ↗</a></div><div><span class="trust-number">03</span><h3>빈칸도 정직하게</h3><p>어제 기록이 없으면 비교하지 않습니다. 합성값과 과거 자료를 오늘의 실제 기록으로 넣지 않습니다.</p><a href="./data/observations.json" target="_blank" rel="noopener noreferrer">공개 기록 원본 보기 ↗</a></div></section>
+  </main>
+  <footer><span>◒ 오늘의 서울</span><span>Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a> · CC BY 4.0</span><span>모든 시각은 한국 표준시 (KST)</span></footer>
+</div>
+</body></html>
