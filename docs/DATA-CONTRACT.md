@@ -44,6 +44,8 @@
 
 현재 첫 실제 수집은 2026-09-22 09:14:21 KST, 19.5°C입니다. 원천 응답과 SHA-256을 `public/data/evidence/2026-09-22T00-14-21.391Z.json`에 보관했습니다. 원천 기준 시각은 같은 날 09:00 KST입니다. 요청 좌표와 모델 격자 좌표는 다를 수 있으며 첫 응답의 좌표는 `37.55, 127.0`입니다.
 
+같은 날 GitHub Actions의 실제 후속 수집은 09:19:28 KST, 20°C·원천 기준 09:15 KST입니다. 근거는 `public/data/evidence/2026-09-22T00-19-28.655Z.json`에 있습니다. `lastGood`은 20°C로 갱신되었지만 `days`의 첫 대표값은 19.5°C이고 실제 날짜 수는 1일입니다.
+
 ## 하루 대표값과 마지막 정상값
 
 1. 실제 수신 시각을 KST로 환산하여 기록 날짜를 정합니다.
@@ -81,3 +83,7 @@
 ## 변경과 공개
 
 실제 수집 파일이 바뀌면 빌드·배포를 갱신하고 공개 화면과 원본 파일을 대조합니다. 소스 제출 URL은 검증한 배포와 일치하는 전체 커밋으로 고정합니다. 공개 자료에는 개인정보·비밀번호·토큰·비밀 API 키를 넣지 않습니다. 날짜·해시·과제 버전을 플랫폼 입력란에 별도 증거 항목으로 덧붙일 필요는 없습니다.
+
+GitHub Actions의 `.github/workflows/daily.yml`에 매일 09:20 KST 수집 일정을 연결했습니다. 예약 실행은 지연될 수 있으므로 실제 `fetchedAt`을 기록 날짜의 근거로 사용합니다. 정상 수집은 원천 응답과 기록을 함께 커밋하고 연결된 Vercel이 배포합니다. 실패하면 과거 정상 기록을 새 날짜로 복사하지 않습니다.
+
+[첫 수동 실행](https://github.com/PeterAhnn/SKT-ALEPH-Project-4-Dashboard/actions/runs/35671454459)과 연결 운영 배포는 성공했습니다. [공개 정보판](https://skt-aleph-project-4-dashboard.vercel.app)과 전체 커밋 소스는 새 격리 브라우저에서 인증 없이 열렸습니다. 배포된 `index.html`, `app.mjs`, `core.mjs`, `style.css`, `data/observations.json`의 SHA-256은 커밋 `37ac8914ad7a0e7c91ff79c91402c6c7ba7e3893`의 각 파일과 일치했습니다. 근거는 [공개 접근](verification/public-source-access.json)과 [파일 해시](verification/public-file-hashes.json)에 보관합니다. 다음 실제 날짜의 예약 실행·공개 기록 반영·변화값은 아직 확인하지 않았습니다.
