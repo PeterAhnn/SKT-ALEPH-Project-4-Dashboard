@@ -202,8 +202,15 @@ return await (async () => {
 
     await run('public-json-export', async () => {
       const originalClick = HTMLAnchorElement.prototype.click;
+      const originalCreateObjectURL = URL.createObjectURL;
+      const exportedBlobs = new Map();
       let download = null;
       try {
+        URL.createObjectURL = function (object) {
+          const url = Reflect.apply(originalCreateObjectURL, URL, [object]);
+          if (object instanceof Blob) exportedBlobs.set(url, object);
+          return url;
+        };
         HTMLAnchorElement.prototype.click = function () {
           if (this.download.startsWith('daegu-') && this.href.startsWith('blob:')) { download = { href: this.href, filename: this.download }; return; }
           return Reflect.apply(originalClick, this, []);
@@ -211,11 +218,16 @@ return await (async () => {
         $('#public-tab').click();
         $('#export').click();
         assert(download && download.filename.startsWith('daegu-public-'), 'The public JSON download was not generated');
-        const exported = await (await nativeFetch(download.href)).json();
+        const exportedBlob = exportedBlobs.get(download.href);
+        assert(exportedBlob instanceof Blob, 'The download did not use the captured JSON Blob');
+        const exported = JSON.parse(await exportedBlob.text());
         assert(exported.scope === 'published-real-observations' && exported.source.url === sourceUrl, 'Export provenance is incorrect');
         assert(exported.version === 2 && exported.days.every((day) => day.kind === 'real' && day.sourceId === 'open-meteo-daegu' && day.sourceUrl === sourceUrl), 'Export contains incorrect or synthetic records');
         return { filename: download.filename, realRows: exported.days.length };
-      } finally { HTMLAnchorElement.prototype.click = originalClick; }
+      } finally {
+        HTMLAnchorElement.prototype.click = originalClick;
+        URL.createObjectURL = originalCreateObjectURL;
+      }
     });
 
     await run('scope-theme-and-layout', async () => {

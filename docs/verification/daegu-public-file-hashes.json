@@ -1,0 +1,70 @@
+{
+  "checkedAt": "2026-09-22T00:47:43.413Z",
+  "commit": "28481cff72fdbfc90a3f3f1e3463bcac497b01a0",
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "6add6758cbcbb976c2c214ab3a4aa4a0c5ed292389378508edd2767597d473bf",
+      "gitSha256": "6add6758cbcbb976c2c214ab3a4aa4a0c5ed292389378508edd2767597d473bf",
+      "matches": true
+    },
+    {
+      "path": "app.mjs",
+      "status": 200,
+      "sha256": "ad4f1c1c2fc7e8b2283f4bb8ff59abc9bf2f0c57d640eb7a59492b00050fa0f8",
+      "gitSha256": "ad4f1c1c2fc7e8b2283f4bb8ff59abc9bf2f0c57d640eb7a59492b00050fa0f8",
+      "matches": true
+    },
+    {
+      "path": "core.mjs",
+      "status": 200,
+      "sha256": "972b44820487c8bf18b780aba07bf2ef47b56d8651214cfca765bbf4672196c4",
+      "gitSha256": "972b44820487c8bf18b780aba07bf2ef47b56d8651214cfca765bbf4672196c4",
+      "matches": true
+    },
+    {
+      "path": "weather-view.mjs",
+      "status": 200,
+      "sha256": "c61afaa81ce6d1d67f6564a4e1e300008267bed03d5402228937a550bc3012f2",
+      "gitSha256": "c61afaa81ce6d1d67f6564a4e1e300008267bed03d5402228937a550bc3012f2",
+      "matches": true
+    },
+    {
+      "path": "fixture-adapter.mjs",
+      "status": 200,
+      "sha256": "1d6c4b07ded3ee935b6a71916e643366c589fcc2fc0aa90fc75c3aae137f8fcf",
+      "gitSha256": "1d6c4b07ded3ee935b6a71916e643366c589fcc2fc0aa90fc75c3aae137f8fcf",
+      "matches": true
+    },
+    {
+      "path": "style.css",
+      "status": 200,
+      "sha256": "4d54cd0a4b09b019cf648744a68a4a50122eec5c3f5992ca74cd38691d675059",
+      "gitSha256": "4d54cd0a4b09b019cf648744a68a4a50122eec5c3f5992ca74cd38691d675059",
+      "matches": true
+    },
+    {
+      "path": "data/observations.json",
+      "status": 200,
+      "sha256": "6f078558ce8e63a016099290298a2043ccfecd92f66a5ee176baff543ef8be45",
+      "gitSha256": "6f078558ce8e63a016099290298a2043ccfecd92f66a5ee176baff543ef8be45",
+      "matches": true
+    },
+    {
+      "path": "data/review-evidence.json",
+      "status": 200,
+      "sha256": "0ffb792dac5f396e6b814c295fab3c0af514f938ea39cc4fc66c82f53452f549",
+      "gitSha256": "0ffb792dac5f396e6b814c295fab3c0af514f938ea39cc4fc66c82f53452f549",
+      "matches": true
+    },
+    {
+      "path": "data/weather.json",
+      "status": 200,
+      "sha256": "08a2cc12f8cd4a086d334fd4d6f0e6afb1d405ef69d519bd68474920e4aa7d1d",
+      "gitSha256": "08a2cc12f8cd4a086d334fd4d6f0e6afb1d405ef69d519bd68474920e4aa7d1d",
+      "matches": true
+    }
+  ],
+  "allMatch": true
+}
