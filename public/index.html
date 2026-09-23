@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="대구의 현재 날씨, 앞으로 24시간과 7일 예보를 한눈에 확인하세요.">
+  <meta name="description" content="대구의 현재 날씨, 앞으로 24시간과 단기·중기예보를 한눈에 확인하세요.">
   <meta name="color-scheme" content="light dark">
   <title>오늘의 대구 · 현재 날씨와 예보</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23275dad'/%3E%3Ccircle cx='32' cy='32' r='13' fill='%23fff'/%3E%3C/svg%3E">
@@ -19,7 +19,7 @@
     </header>
     <main id="main">
       <section class="location-heading" aria-labelledby="location-title">
-        <div><p class="kicker">DAEGU WEATHER</p><h1 id="location-title">대구의 날씨</h1><p>중구 기준 · 모든 시각 KST</p></div>
+        <div><p class="kicker">DAEGU WEATHER</p><h1 id="location-title">대구의 날씨</h1><p>중구 격자 기준 · 모든 시각 KST</p></div>
         <button id="service-refresh" type="button" class="refresh-button">새로고침 <span aria-hidden="true">↻</span></button>
       </section>
       <p id="service-status" class="service-status" role="status" aria-live="polite">현재 날씨를 확인하고 있습니다.</p>
@@ -37,23 +37,27 @@
       </div>
       <section class="forecast-section" aria-labelledby="hourly-title">
         <div class="section-heading"><h2 id="hourly-title">시간별 예보</h2><p>기온 · 강수확률</p></div>
-        <div id="service-hourly" class="hourly-track" tabindex="0" aria-label="24시간 예보, 좌우로 이동"></div>
+        <p id="forecast-status" class="forecast-note" role="status"></p><div id="service-hourly" class="hourly-track" tabindex="0" aria-label="24시간 예보, 좌우로 이동"></div>
       </section>
       <section class="forecast-section" aria-labelledby="daily-title">
-        <div class="section-heading"><h2 id="daily-title">7일 예보</h2><p>최저·최고 기온 · 강수확률</p></div>
+        <div class="section-heading"><h2 id="daily-title">단기예보</h2><p>최저·최고 기온 · 강수확률</p></div>
         <div id="service-daily" class="daily-list"></div>
       </section>
+      <section class="forecast-section" aria-labelledby="mid-title"><div class="section-heading"><h2 id="mid-title">중기 전망</h2><p>대구·경북 날씨 · 대구 기온</p></div><p id="mid-status" class="forecast-note" role="status"></p><div id="service-mid" class="daily-list"></div></section>
+      <section class="forecast-section" aria-labelledby="air-title"><div class="section-heading"><h2 id="air-title">대기질</h2><p id="air-station">측정소 확인 중</p></div><div id="air-values" class="air-values"></div><p id="air-status" class="forecast-note" role="status"></p></section>
+      <details class="source-details"><summary id="warnings-summary">기상특보 확인 중</summary><div class="source-content"><p>전국 발표 원문입니다. 대구 관련 지역과 발효 시각을 확인하세요.</p><p id="warnings-status" class="forecast-note" role="status"></p><p id="warnings-content" class="warning-bulletin"></p><a href="https://www.data.go.kr/data/15000415/openapi.do" target="_blank" rel="noopener noreferrer">기상청 기상특보 출처 ↗</a></div></details>
       <p id="service-forecast-note" class="forecast-note" role="status">예보는 앞으로의 예상이며 달라질 수 있습니다.</p>
       <details class="source-details">
         <summary>데이터 출처와 기준</summary>
         <div class="source-content">
-          <p>Open-Meteo의 대구 중구 기준 좌표(35.8714, 128.6014) 기상 모델 자료입니다. 현재 기온은 지상 2m 기준이며, 실측 관측소의 값과 다를 수 있습니다.</p>
+          <p>기상청 초단기실황과 단기예보의 대구 중구 격자(89, 90) 자료입니다. 격자의 대표 관측값이며 모든 동의 개별 관측값을 뜻하지 않습니다. 바람은 m/s, 강수량은 최근 1시간 mm입니다. 특보는 전국 발표 원문을 제공합니다.</p>
           <dl class="source-meta"><div><dt>원천 기준 시각</dt><dd id="service-source-time">아직 없음</dd></div><div><dt>조회 시각</dt><dd id="service-fetch-time">아직 없음</dd></div><div><dt>기준 시간대</dt><dd>Asia/Seoul (KST)</dd></div></dl>
-          <a id="service-source-link" href="https://open-meteo.com/en/docs" target="_blank" rel="noopener noreferrer">원천 응답 보기 ↗</a>
+          <a id="service-source-link" href="https://www.data.go.kr/data/15084084/openapi.do" target="_blank" rel="noopener noreferrer">기상청 단기예보 출처 ↗</a>
+          <p><a href="https://www.data.go.kr/data/15059468/openapi.do" target="_blank" rel="noopener noreferrer">기상청 중기예보 출처 ↗</a> · <a href="https://www.data.go.kr/data/15073861/openapi.do" target="_blank" rel="noopener noreferrer">에어코리아 대기질 출처 ↗</a></p>
         </div>
       </details>
     </main>
-    <footer class="service-footer"><span>Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a> · CC BY 4.0</span><a href="./review.html">기록·검증 ↗</a></footer>
+    <footer class="service-footer"><span>자료: <a href="https://www.data.go.kr/data/15084084/openapi.do" target="_blank" rel="noopener noreferrer">기상청</a> · <a href="https://www.data.go.kr/data/15073861/openapi.do" target="_blank" rel="noopener noreferrer">에어코리아</a></span><a href="./review.html">기록·검증 ↗</a></footer>
   </div>
 </body>
 </html>

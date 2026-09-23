@@ -1,0 +1,517 @@
+{
+  "checkedAt": "2026-09-23T07:50:54.298Z",
+  "source": "https://www.data.go.kr/tcs/dss/selectDataSetList.do?keyword=%EA%B8%B0%EC%83%81%EC%B2%AD",
+  "filter": "Open API tab",
+  "pageCount": 11,
+  "resultCount": 101,
+  "kmaNamedCount": 86,
+  "method": "Read all result pages with gstack browse. Names and detail URLs only; no authenticated API calls.",
+  "scope": "Keyword search results include linked APIs, duplicate data families and other agencies. Not a claim of all weather APIs across every provider.",
+  "entries": [
+    {
+      "title": "기상청_단기예보 조회서비스",
+      "url": "https://www.data.go.kr/data/15084084/openapi.do",
+      "page": 1
+    },
+    {
+      "title": "기상청_중기예보 조회서비스",
+      "url": "https://www.data.go.kr/data/15059468/openapi.do",
+      "page": 1
+    },
+    {
+      "title": "기상청_지상(종관, ASOS) 시간자료 조회서비스",
+      "url": "https://www.data.go.kr/data/15057210/openapi.do",
+      "page": 1
+    },
+    {
+      "title": "기상청_지상(종관, ASOS) 일자료 조회서비스",
+      "url": "https://www.data.go.kr/data/15059093/openapi.do",
+      "page": 1
+    },
+    {
+      "title": "기상청_기상특보 조회서비스",
+      "url": "https://www.data.go.kr/data/15000415/openapi.do",
+      "page": 1
+    },
+    {
+      "title": "기상청_CCTV 기반 도로날씨정보 조회서비스",
+      "url": "https://www.data.go.kr/data/15057966/openapi.do",
+      "page": 1
+    },
+    {
+      "title": "기상청_관광코스별 관광지 상세 날씨 조회서비스",
+      "url": "https://www.data.go.kr/data/15056912/openapi.do",
+      "page": 1
+    },
+    {
+      "title": "기상청_전국 해수욕장 날씨 조회서비스",
+      "url": "https://www.data.go.kr/data/15102239/openapi.do",
+      "page": 1
+    },
+    {
+      "title": "기상청_단기예보 통보문 조회서비스",
+      "url": "https://www.data.go.kr/data/15058629/openapi.do",
+      "page": 1
+    },
+    {
+      "title": "기상청_기상청_생활기상지수 조회서비스(4.0)",
+      "url": "https://www.data.go.kr/data/15085288/openapi.do",
+      "page": 1
+    },
+    {
+      "title": "기상청_예보구역정보 조회서비스",
+      "url": "https://www.data.go.kr/data/15057111/openapi.do",
+      "page": 2
+    },
+    {
+      "title": "기상청_작물별 농업주산지 상세날씨 조회서비스",
+      "url": "https://www.data.go.kr/data/15059518/openapi.do",
+      "page": 2
+    },
+    {
+      "title": "기상청_단기예보 조회서비스(기상청API허브 연계)",
+      "url": "https://www.data.go.kr/data/15139470/openapi.do",
+      "page": 2
+    },
+    {
+      "title": "기상청_지진정보 조회서비스",
+      "url": "https://www.data.go.kr/data/15000420/openapi.do",
+      "page": 2
+    },
+    {
+      "title": "기상청_항공기상전문 조회서비스",
+      "url": "https://www.data.go.kr/data/15058804/openapi.do",
+      "page": 2
+    },
+    {
+      "title": "기상청_위성영상 조회서비스",
+      "url": "https://www.data.go.kr/data/15058167/openapi.do",
+      "page": 2
+    },
+    {
+      "title": "기상청_일기도 조회서비스",
+      "url": "https://www.data.go.kr/data/15043562/openapi.do",
+      "page": 2
+    },
+    {
+      "title": "기상청_레이더영상 조회서비스",
+      "url": "https://www.data.go.kr/data/15056924/openapi.do",
+      "page": 2
+    },
+    {
+      "title": "기상청_태풍정보 조회서비스",
+      "url": "https://www.data.go.kr/data/15043565/openapi.do",
+      "page": 2
+    },
+    {
+      "title": "기상청_꽃가루농도위험지수 조회서비스(3.0)",
+      "url": "https://www.data.go.kr/data/15085289/openapi.do",
+      "page": 2
+    },
+    {
+      "title": "기상청_서리발생 가능성 예측정보 조회서비스",
+      "url": "https://www.data.go.kr/data/15059087/openapi.do",
+      "page": 3
+    },
+    {
+      "title": "기상청_특보구역정보 조회서비스",
+      "url": "https://www.data.go.kr/data/15126651/openapi.do",
+      "page": 3
+    },
+    {
+      "title": "기상청_레이더관측자료 조회서비스",
+      "url": "https://www.data.go.kr/data/15057166/openapi.do",
+      "page": 3
+    },
+    {
+      "title": "기상청_지상기상연보 조회서비스",
+      "url": "https://www.data.go.kr/data/15058845/openapi.do",
+      "page": 3
+    },
+    {
+      "title": "기상청_특보 조회서비스",
+      "url": "https://www.data.go.kr/data/15139476/openapi.do",
+      "page": 3
+    },
+    {
+      "title": "기상청_낙뢰분포도 조회서비스",
+      "url": "https://www.data.go.kr/data/15057256/openapi.do",
+      "page": 3
+    },
+    {
+      "title": "기상청_통보문 조회서비스",
+      "url": "https://www.data.go.kr/data/15126649/openapi.do",
+      "page": 3
+    },
+    {
+      "title": "기상청_레이더자료(경량화) 조회서비스",
+      "url": "https://www.data.go.kr/data/15059060/openapi.do",
+      "page": 3
+    },
+    {
+      "title": "기상청_지상기상월보 조회서비스",
+      "url": "https://www.data.go.kr/data/15057260/openapi.do",
+      "page": 3
+    },
+    {
+      "title": "기상청_영향예보_조회서비스",
+      "url": "https://www.data.go.kr/data/15095149/openapi.do",
+      "page": 3
+    },
+    {
+      "title": "기상청_종관기상관측 조회서비스",
+      "url": "https://www.data.go.kr/data/15139432/openapi.do",
+      "page": 4
+    },
+    {
+      "title": "기상청_방재기상연보 조회서비스",
+      "url": "https://www.data.go.kr/data/15059466/openapi.do",
+      "page": 4
+    },
+    {
+      "title": "기상청_위성자료(경량화) 조회서비스",
+      "url": "https://www.data.go.kr/data/15059244/openapi.do",
+      "page": 4
+    },
+    {
+      "title": "기상청_지상기상관측 지점정보 조회서비스",
+      "url": "https://www.data.go.kr/data/15139439/openapi.do",
+      "page": 4
+    },
+    {
+      "title": "기상청_방재기상월보 조회서비스",
+      "url": "https://www.data.go.kr/data/15058466/openapi.do",
+      "page": 4
+    },
+    {
+      "title": "기상청_전지구예보모델 조회서비스",
+      "url": "https://www.data.go.kr/data/15126648/openapi.do",
+      "page": 4
+    },
+    {
+      "title": "기상청_고층기상월보 조회서비스",
+      "url": "https://www.data.go.kr/data/15058088/openapi.do",
+      "page": 4
+    },
+    {
+      "title": "기상청_중기예보(TXT) 조회서비스",
+      "url": "https://www.data.go.kr/data/15139475/openapi.do",
+      "page": 4
+    },
+    {
+      "title": "기상청_낙뢰관측자료 조회서비스",
+      "url": "https://www.data.go.kr/data/15058079/openapi.do",
+      "page": 4
+    },
+    {
+      "title": "기상청_위성자료 경량화 조회서비스(기상산출물)",
+      "url": "https://www.data.go.kr/data/15077314/openapi.do",
+      "page": 4
+    },
+    {
+      "title": "기상청_세계기상전문(GTS)_조회서비스",
+      "url": "https://www.data.go.kr/data/15095158/openapi.do",
+      "page": 5
+    },
+    {
+      "title": "기상청_세계공항 항공기상전문 조회서비스",
+      "url": "https://www.data.go.kr/data/15059100/openapi.do",
+      "page": 5
+    },
+    {
+      "title": "기상청_항공기상전문(IWXXMVer.2.0) 조회서비스",
+      "url": "https://www.data.go.kr/data/15059455/openapi.do",
+      "page": 5
+    },
+    {
+      "title": "기상청_고해상도 격자 조회서비스",
+      "url": "https://www.data.go.kr/data/15139478/openapi.do",
+      "page": 5
+    },
+    {
+      "title": "기상청_해양기상월보 조회서비스",
+      "url": "https://www.data.go.kr/data/15059094/openapi.do",
+      "page": 5
+    },
+    {
+      "title": "기상청_자동기상관측 조회서비스",
+      "url": "https://www.data.go.kr/data/15139433/openapi.do",
+      "page": 5
+    },
+    {
+      "title": "기상청_적설관측 조회서비스",
+      "url": "https://www.data.go.kr/data/15139436/openapi.do",
+      "page": 5
+    },
+    {
+      "title": "기상청_수치예보모델 조회서비스",
+      "url": "https://www.data.go.kr/data/15139467/openapi.do",
+      "page": 5
+    },
+    {
+      "title": "기상청_국내 공항기상정보 조회서비스",
+      "url": "https://www.data.go.kr/data/15110052/openapi.do",
+      "page": 5
+    },
+    {
+      "title": "기상청_국내 공항 이륙예보 조회서비스",
+      "url": "https://www.data.go.kr/data/15095109/openapi.do",
+      "page": 5
+    },
+    {
+      "title": "기상청_산악예보 조회서비스",
+      "url": "https://www.data.go.kr/data/15139481/openapi.do",
+      "page": 6
+    },
+    {
+      "title": "기상청_국내 AMDAR 관측 조회서비스",
+      "url": "https://www.data.go.kr/data/15139486/openapi.do",
+      "page": 6
+    },
+    {
+      "title": "기상청_레이더강수량(HSR) 조회서비스",
+      "url": "https://www.data.go.kr/data/15139446/openapi.do",
+      "page": 6
+    },
+    {
+      "title": "기상청_해양기상부이·파고부이 관측 조회서비스",
+      "url": "https://www.data.go.kr/data/15139440/openapi.do",
+      "page": 6
+    },
+    {
+      "title": "기상청_표류부이 조회서비스",
+      "url": "https://www.data.go.kr/data/15126689/openapi.do",
+      "page": 6
+    },
+    {
+      "title": "기상청_공항기상관측(AMOS) 조회서비스",
+      "url": "https://www.data.go.kr/data/15139484/openapi.do",
+      "page": 6
+    },
+    {
+      "title": "기상청_천리안위성 2A호 인공지능 기반 일사량 조회서비스",
+      "url": "https://www.data.go.kr/data/15139479/openapi.do",
+      "page": 6
+    },
+    {
+      "title": "기상청_세계기상관측 조회서비스",
+      "url": "https://www.data.go.kr/data/15139489/openapi.do",
+      "page": 6
+    },
+    {
+      "title": "기상청_낙뢰관측 조회서비스",
+      "url": "https://www.data.go.kr/data/15139449/openapi.do",
+      "page": 6
+    },
+    {
+      "title": "기상청_기상1호 조회서비스",
+      "url": "https://www.data.go.kr/data/15126640/openapi.do",
+      "page": 6
+    },
+    {
+      "title": "기상청_천리안위성 2A호 조회서비스",
+      "url": "https://www.data.go.kr/data/15139450/openapi.do",
+      "page": 7
+    },
+    {
+      "title": "기상청_저고도 기상정보 조회서비스",
+      "url": "https://www.data.go.kr/data/15139488/openapi.do",
+      "page": 7
+    },
+    {
+      "title": "기상청_레이더 사이트 조회서비스",
+      "url": "https://www.data.go.kr/data/15139448/openapi.do",
+      "page": 7
+    },
+    {
+      "title": "기상청_항공기상관측 조회서비스",
+      "url": "https://www.data.go.kr/data/15139483/openapi.do",
+      "page": 7
+    },
+    {
+      "title": "기상청_자외선관측 조회서비스",
+      "url": "https://www.data.go.kr/data/15139438/openapi.do",
+      "page": 7
+    },
+    {
+      "title": "기상청_황사관측(PM10) 조회서비스",
+      "url": "https://www.data.go.kr/data/15139435/openapi.do",
+      "page": 7
+    },
+    {
+      "title": "기상청_고층기상관측 지점정보 조회서비스",
+      "url": "https://www.data.go.kr/data/15139445/openapi.do",
+      "page": 7
+    },
+    {
+      "title": "기상청 항공기상청_항공기상전문(IWXXM) 조회서비스_항공기상관측",
+      "url": "https://www.data.go.kr/data/15081107/openapi.do",
+      "page": 7
+    },
+    {
+      "title": "기상청_전력기상지수 조회서비스",
+      "url": "https://www.data.go.kr/data/15139480/openapi.do",
+      "page": 7
+    },
+    {
+      "title": "기상청_계절관측 조회서비스",
+      "url": "https://www.data.go.kr/data/15139437/openapi.do",
+      "page": 7
+    },
+    {
+      "title": "기상청_일본 히마와리 위성자료 조회서비스",
+      "url": "https://www.data.go.kr/data/15126650/openapi.do",
+      "page": 8
+    },
+    {
+      "title": "기상청_해양기상관측 지점정보 조회서비스",
+      "url": "https://www.data.go.kr/data/15139442/openapi.do",
+      "page": 8
+    },
+    {
+      "title": "기상청_수치예상일기도 조회서비스",
+      "url": "https://www.data.go.kr/data/15126688/openapi.do",
+      "page": 8
+    },
+    {
+      "title": "기상청_레이더 합성자료 조회서비스",
+      "url": "https://www.data.go.kr/data/15139447/openapi.do",
+      "page": 8
+    },
+    {
+      "title": "기상청 항공기상청_공항기상관측자료",
+      "url": "https://www.data.go.kr/data/15123073/openapi.do",
+      "page": 8
+    },
+    {
+      "title": "기상청_태풍 베스트트랙 조회서비스",
+      "url": "https://www.data.go.kr/data/15139453/openapi.do",
+      "page": 8
+    },
+    {
+      "title": "기상청 항공기상청_공항예보",
+      "url": "https://www.data.go.kr/data/15123139/openapi.do",
+      "page": 8
+    },
+    {
+      "title": "기상청_북한기상관측 조회서비스",
+      "url": "https://www.data.go.kr/data/15139434/openapi.do",
+      "page": 8
+    },
+    {
+      "title": "기상청_태풍정보(TD) 조회서비스",
+      "url": "https://www.data.go.kr/data/15139452/openapi.do",
+      "page": 8
+    },
+    {
+      "title": "기상청_레윈존데 조회서비스",
+      "url": "https://www.data.go.kr/data/15139443/openapi.do",
+      "page": 8
+    },
+    {
+      "title": "기상청_수치예보모델 그래픽 조회서비스",
+      "url": "https://www.data.go.kr/data/15139468/openapi.do",
+      "page": 9
+    },
+    {
+      "title": "기상청_도로기상관측자료",
+      "url": "https://www.data.go.kr/data/15159045/openapi.do",
+      "page": 9
+    },
+    {
+      "title": "기상청_천리안위성 1호 조회서비스",
+      "url": "https://www.data.go.kr/data/15139451/openapi.do",
+      "page": 9
+    },
+    {
+      "title": "기상청_연직바람관측(윈드프로파일러) 조회서비스",
+      "url": "https://www.data.go.kr/data/15139444/openapi.do",
+      "page": 9
+    },
+    {
+      "title": "기상청_등표기상관측 조회서비스",
+      "url": "https://www.data.go.kr/data/15139441/openapi.do",
+      "page": 9
+    },
+    {
+      "title": "기상청_도로위험기상정보",
+      "url": "https://www.data.go.kr/data/15159041/openapi.do",
+      "page": 9
+    },
+    {
+      "title": "경기도_자동기상관측장비(AWS) 시간별 관측현황",
+      "url": "https://www.data.go.kr/data/15058372/openapi.do",
+      "page": 9
+    },
+    {
+      "title": "법제처_기상청 법령해석 목록 조회",
+      "url": "https://www.data.go.kr/data/15153092/openapi.do",
+      "page": 9
+    },
+    {
+      "title": "법제처_기상청 법령해석 본문 조회",
+      "url": "https://www.data.go.kr/data/15153095/openapi.do",
+      "page": 9
+    },
+    {
+      "title": "농촌진흥청 국립축산과학원_가축사육기상정보_가축 더위지수",
+      "url": "https://www.data.go.kr/data/15102076/openapi.do",
+      "page": 9
+    },
+    {
+      "title": "제주특별자치도개발공사_제주표선유역 강수량",
+      "url": "https://www.data.go.kr/data/15092336/openapi.do",
+      "page": 10
+    },
+    {
+      "title": "행정안전부_생활안전지도 단기예보",
+      "url": "https://www.data.go.kr/data/15149405/openapi.do",
+      "page": 10
+    },
+    {
+      "title": "경상남도_풍수해 취약 지역 데이터",
+      "url": "https://www.data.go.kr/data/15095831/openapi.do",
+      "page": 10
+    },
+    {
+      "title": "한국동서발전(주)_하루 전 전국 태양광 발전량 예측값 조회",
+      "url": "https://www.data.go.kr/data/15144541/openapi.do",
+      "page": 10
+    },
+    {
+      "title": "경기도_자동기상관측장비(AWS) 설치 현황",
+      "url": "https://www.data.go.kr/data/15058162/openapi.do",
+      "page": 10
+    },
+    {
+      "title": "한국에너지기술연구원_풍력 시공간 자원정보 서비스",
+      "url": "https://www.data.go.kr/data/15125093/openapi.do",
+      "page": 10
+    },
+    {
+      "title": "농촌진흥청 국립원예특작과학원_이상기상발생 범위자료 조회 서비스",
+      "url": "https://www.data.go.kr/data/15122349/openapi.do",
+      "page": 10
+    },
+    {
+      "title": "국민권익위원회_통합콜센터_상담사례_조회서비스",
+      "url": "https://www.data.go.kr/data/15141798/openapi.do",
+      "page": 10
+    },
+    {
+      "title": "농림수산식품교육문화정보원_기상관측현황",
+      "url": "https://www.data.go.kr/data/15142144/openapi.do",
+      "page": 10
+    },
+    {
+      "title": "행정안전부_생활안전지도 자외선지수",
+      "url": "https://www.data.go.kr/data/15149442/openapi.do",
+      "page": 10
+    },
+    {
+      "title": "한국체육산업개발주식회사_올림픽공원 차량입출차, 공연, 날씨정보 등 연계 데이터",
+      "url": "https://www.data.go.kr/data/15164822/openapi.do",
+      "page": 11
+    }
+  ]
+}
