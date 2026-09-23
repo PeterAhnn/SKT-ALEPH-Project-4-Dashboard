@@ -54,6 +54,14 @@
 - 기존 메인 18/18, 과제 검증 화면 27/27 회귀 검사 통과. 공개 코드·문서·서버 코드와 Git 이력의 비밀값 검사에서 탐지 0건이었다. 패턴 및 로컬 비밀값 대조 검사이며 Vercel 비밀값을 내려받지 않았다. 서버에서는 응답 전 실제 Production 키 포함 여부도 검사한다.
 - 공개 배포 확인은 아래 증거 파일에 기록한다. 사용자 직접 평가나 플랫폼 채점으로 표현하지 않는다.
 
+무로그인 공개 브라우저에서 기상 영상 11/11, 생활 날씨 13/13, 관측 5/5, 대구공항 14/14를 확인했다. 모바일은 영상 11/11·공항 14/14를 추가 확인했다. 새 14개 조회 종류가 HTTP 200으로 응답했고 영향예보·TAF·공항 해설 3개는 명시적인 자료 없음, 나머지는 실제 데이터였다. 서버 정규화 후 응답이며 원천 원문이라고 주장하지 않는다. 18:17 KST 조회 시 공항 관측은 18:00 KST 27°C·360° 4kt·시정 10km 이상·QNH 1016hPa였다. 이후 값은 달라진다.
+
+[공개 영상](verification/extras-public-images.json) · [공개 생활 날씨](verification/extras-public-life.json) · [공개 관측](verification/extras-public-observations.json) · [공개 공항](verification/extras-public-airport.json) · [모바일 공항](verification/extras-public-airport-mobile.json) · [모바일 영상](verification/extras-public-images-mobile.json)
+
+[기상 영상 화면](verification/extras-public-images.png) · [생활 날씨 화면](verification/extras-public-life.png) · [모바일 공항 화면](verification/extras-public-airport-mobile.png)
+
+[구현 전체 커밋](https://github.com/PeterAhnn/SKT-ALEPH-Project-4-Dashboard/commit/3c5ad79aade5fcb5a30cd1f656c6df22323836c9)은 새 무인증 브라우저에서 열리는 것을 확인했다. 공개 파일 18개가 해당 Git 커밋 원본과 SHA-256까지 일치했다. 작업 폴더의 Windows 줄바꿈 차이도 정리한 뒤 확인했다. [대조 결과](verification/extras-public-hashes.json).
+
 [PC 검사](verification/extras-desktop.json) · [모바일 검사](verification/extras-mobile.json) · [기본 메인 회귀](verification/extras-main-regression.json) · [과제 검증 회귀](verification/extras-review-regression.json)
 
 과제 실제 기록·공식 fixture를 수정하지 않았다. 플랫폼 `t04_day` 영수증과 실제 제출은 여전히 미확인이다.

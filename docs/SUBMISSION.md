@@ -1,6 +1,6 @@
 # 과제 4 · 대구 날씨 현황판 제출 문안
 
-> 메인은 기상청·에어코리아, 기록·검증 화면의 과제 증거는 기존 Open-Meteo 자료입니다. 서로 다른 원천을 어제 대비로 섞지 않습니다. 실제 KST 두 날짜 자료와 원자료·저장값·화면값·변화 대조를 확인했습니다. 플랫폼 봉인 영수증 및 실제 제출은 미확인입니다. 메인·검증 화면과 전체 커밋 소스의 무인증 접근, 새 연동의 공개 파일 14개가 제출 소스 커밋과 SHA-256까지 일치함을 확인했습니다.
+> 메인과 기상 영상·생활 날씨·관측·대구공항은 공공데이터포털 기상청·에어코리아, 기록·검증 화면의 과제 증거는 기존 Open-Meteo 자료입니다. 서로 다른 원천을 어제 대비로 섞지 않습니다. 실제 KST 두 날짜 자료와 원자료·저장값·화면값·변화 대조를 확인했습니다. 플랫폼 봉인 영수증 및 실제 제출은 미확인입니다. 공개 화면과 전체 커밋 소스는 무인증으로 확인하며 최신 검증은 EXTENDED-SERVICES.md에 기록합니다.
 
 ## 결과물 URL (필수)
 
@@ -8,7 +8,7 @@ https://skt-aleph-project-4-dashboard.vercel.app
 
 ## 소스 저장소 URL
 
-https://github.com/PeterAhnn/SKT-ALEPH-Project-4-Dashboard/commit/56e718850eda67a1cd3fa9c4bbb8c2efceccd58f
+https://github.com/PeterAhnn/SKT-ALEPH-Project-4-Dashboard/commit/3c5ad79aade5fcb5a30cd1f656c6df22323836c9
 
 ## 재현·통과 확인 4가지
 
@@ -22,14 +22,14 @@ https://github.com/PeterAhnn/SKT-ALEPH-Project-4-Dashboard/commit/56e718850eda67
 ## AI와 내 판단 3줄
 
 ```text
-AI에게 맡긴 일: 서버에서 공공데이터 API 연동·키 보호·실패 보존, 공식 합성 실패와 복구, 서비스/검증 화면 분리, 검사·제출 문서와 공공데이터 API 조사.
+AI에게 맡긴 일: 공공데이터 API 조사·서버 연동·키 보호·실패 보존, 기상 영상·생활지수·대구공항 확장, 서비스/검증 화면 분리, 공식 합성 재생과 검사·제출 문서.
 내가 판단한 일: 대구 날씨·예보를 선택하고 과제 기능이 메인에 과하게 드러난 점을 지적해 실제 서비스 중심의 화면과 공공데이터 확장을 요청했다.
 AI 말을 안 들은 일: 과제 검증 중심의 메인을 날씨 서비스와 분리했고, AI가 조사한 확장 후보 중 별도 인증키 발급이 필요한 기상청 API허브 기능은 과제 규모에 맞지 않아 제외했다.
 ```
 
 ## 제출 입력란과 구분한 준비 상태
 
-새 연동 검사는 [PORTAL-INTEGRATION.md](PORTAL-INTEGRATION.md)를 참고합니다. 아래 12+27+4 및 13파일 해시 항목은 이전 Open-Meteo 메인 배포의 기록입니다.
+최신 확장은 [EXTENDED-SERVICES.md](EXTENDED-SERVICES.md), 기본 연동은 [PORTAL-INTEGRATION.md](PORTAL-INTEGRATION.md)를 참고합니다. 아래 12+27+4 및 13파일 해시 항목은 이전 Open-Meteo 메인 배포의 기록입니다.
 
 - [x] 공식 17개 파일·9개 fixture hash 확인과 자동 검사 32개 통과
 - [x] 실제 서로 다른 KST 날짜 두 건, 원자료 SHA-256·저장값·화면값 및 +3.9°C 대조
