@@ -88,4 +88,8 @@ fixture의 2026-08-24/25는 합성 날짜이며 실제 관찰 기간과 무관�
 
 소스 제출 URL은 검증한 배포에 대응하는 전체 커밋으로 고정합니다. 공개 자료·브라우저·응답·Git 이력에 비밀값이나 개인정보를 넣지 않습니다. 플랫폼에는 주소·확인법·판단만 입력하고 별도 증거 ZIP을 필수 첨부물로 추가하지 않습니다.
 
-2026-09-22 대구 자동 수집 [실행 35673266121](https://github.com/PeterAhnn/SKT-ALEPH-Project-4-Dashboard/actions/runs/35673266121)은 검사·실수집·저장소 반영에 성공했습니다. 공개 앱·데이터 9개 파일은 [전체 커밋 28481cff72fdbfc90a3f3f1e3463bcac497b01a0](https://github.com/PeterAhnn/SKT-ALEPH-Project-4-Dashboard/commit/28481cff72fdbfc90a3f3f1e3463bcac497b01a0)과 hash가 일치하고 두 제출 URL은 새 격리 브라우저에서 무인증 접근을 확인했습니다. 실제 두 번째 날짜·변화값·플랫폼 영수증 및 제출 여부는 아직 미확인입니다.
+2026-09-22 대구 자동 수집 [실행 35673266121](https://github.com/PeterAhnn/SKT-ALEPH-Project-4-Dashboard/actions/runs/35673266121)은 검사·실수집·저장소 반영에 성공했습니다. 공개 앱·데이터 9개 파일은 [전체 커밋 28481cff72fdbfc90a3f3f1e3463bcac497b01a0](https://github.com/PeterAhnn/SKT-ALEPH-Project-4-Dashboard/commit/28481cff72fdbfc90a3f3f1e3463bcac497b01a0)과 hash가 일치하고 두 제출 URL은 새 격리 브라우저에서 무인증 접근을 확인했습니다. 이 문장의 9월 22일 배포 증거는 당시 기록입니다. 현재 검증은 QA.md를 따릅니다. 9월 23일 실제 둘째 보관값 25.8°C를 추가했으며 첫 보관값 21.9°C와의 +3.9°C 변화가 일치합니다. 플랫폼 영수증 및 제출 여부는 미확인입니다.
+
+## 서비스 캐시와 검증 페이지
+
+메인은 전체 날씨 원응답을 `daegu-weather-service-cache-v1`에 보관하고 검증 페이지의 `daegu-daily-real-v2`와 공개 두 날짜 자료를 수정하지 않습니다. 실패하면 검증된 마지막 정상값과 예보를 이전 수신값으로 표시합니다. `/review.html`은 기존 실제 기록·공식 합성 재생·원자료 대조를 담당합니다.

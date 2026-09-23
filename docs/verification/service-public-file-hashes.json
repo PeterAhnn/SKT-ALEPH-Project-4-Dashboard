@@ -1,0 +1,98 @@
+{
+  "at": "2026-09-23T07:31:23.189Z",
+  "url": "https://skt-aleph-project-4-dashboard.vercel.app/",
+  "sourceCommit": "9f6d858d244f962f7ab104a2c14f9a029b1f9a28",
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "7594a1c242bed2a0d8af6df9bf882cf076a17217b5a6601f005f4cd9e49cb5af",
+      "sourceSha256": "7594a1c242bed2a0d8af6df9bf882cf076a17217b5a6601f005f4cd9e49cb5af",
+      "match": true
+    },
+    {
+      "path": "service.mjs",
+      "status": 200,
+      "sha256": "6838f18ac6b0d0aaf92d53c985e6633cc65e5c04fb5366d4a4f7d5f61571df65",
+      "sourceSha256": "6838f18ac6b0d0aaf92d53c985e6633cc65e5c04fb5366d4a4f7d5f61571df65",
+      "match": true
+    },
+    {
+      "path": "service.css",
+      "status": 200,
+      "sha256": "38c943d915663ef283bf3f84d08d9977d2258bca4904895ae5e0ca633f7f70c7",
+      "sourceSha256": "38c943d915663ef283bf3f84d08d9977d2258bca4904895ae5e0ca633f7f70c7",
+      "match": true
+    },
+    {
+      "path": "review.html",
+      "status": 200,
+      "sha256": "daba65af0c488b45ef9977baff784374637c4ed704c73b6c32c4eba0efcd38ff",
+      "sourceSha256": "daba65af0c488b45ef9977baff784374637c4ed704c73b6c32c4eba0efcd38ff",
+      "match": true
+    },
+    {
+      "path": "review.css",
+      "status": 200,
+      "sha256": "e626d6f74f61400031517cb3686e07815fda7f2cb68602c25bde5fd7cda6de94",
+      "sourceSha256": "e626d6f74f61400031517cb3686e07815fda7f2cb68602c25bde5fd7cda6de94",
+      "match": true
+    },
+    {
+      "path": "app.mjs",
+      "status": 200,
+      "sha256": "ad4f1c1c2fc7e8b2283f4bb8ff59abc9bf2f0c57d640eb7a59492b00050fa0f8",
+      "sourceSha256": "ad4f1c1c2fc7e8b2283f4bb8ff59abc9bf2f0c57d640eb7a59492b00050fa0f8",
+      "match": true
+    },
+    {
+      "path": "core.mjs",
+      "status": 200,
+      "sha256": "972b44820487c8bf18b780aba07bf2ef47b56d8651214cfca765bbf4672196c4",
+      "sourceSha256": "972b44820487c8bf18b780aba07bf2ef47b56d8651214cfca765bbf4672196c4",
+      "match": true
+    },
+    {
+      "path": "weather-view.mjs",
+      "status": 200,
+      "sha256": "c61afaa81ce6d1d67f6564a4e1e300008267bed03d5402228937a550bc3012f2",
+      "sourceSha256": "c61afaa81ce6d1d67f6564a4e1e300008267bed03d5402228937a550bc3012f2",
+      "match": true
+    },
+    {
+      "path": "fixture-adapter.mjs",
+      "status": 200,
+      "sha256": "1d6c4b07ded3ee935b6a71916e643366c589fcc2fc0aa90fc75c3aae137f8fcf",
+      "sourceSha256": "1d6c4b07ded3ee935b6a71916e643366c589fcc2fc0aa90fc75c3aae137f8fcf",
+      "match": true
+    },
+    {
+      "path": "style.css",
+      "status": 200,
+      "sha256": "4d54cd0a4b09b019cf648744a68a4a50122eec5c3f5992ca74cd38691d675059",
+      "sourceSha256": "4d54cd0a4b09b019cf648744a68a4a50122eec5c3f5992ca74cd38691d675059",
+      "match": true
+    },
+    {
+      "path": "data/observations.json",
+      "status": 200,
+      "sha256": "ce070811ffaed469f9d4f3214519d6107088fbb5de9a6df09c24e2381825ee36",
+      "sourceSha256": "ce070811ffaed469f9d4f3214519d6107088fbb5de9a6df09c24e2381825ee36",
+      "match": true
+    },
+    {
+      "path": "data/review-evidence.json",
+      "status": 200,
+      "sha256": "ed2d191f6f6aae54aa361cefed1d6f695cfd0c67cabff16098b634c197d05dcf",
+      "sourceSha256": "ed2d191f6f6aae54aa361cefed1d6f695cfd0c67cabff16098b634c197d05dcf",
+      "match": true
+    },
+    {
+      "path": "data/weather.json",
+      "status": 200,
+      "sha256": "1133bf9368f97090ff953619a6299920dabed09627851bb6bcfb911476032e57",
+      "sourceSha256": "1133bf9368f97090ff953619a6299920dabed09627851bb6bcfb911476032e57",
+      "match": true
+    }
+  ]
+}
