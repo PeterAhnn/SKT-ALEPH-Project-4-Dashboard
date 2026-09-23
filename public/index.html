@@ -1,32 +1,59 @@
 <!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="대구의 현재 기온과 시간별·7일 예보를 확인합니다. 데이터가 오지 않는 순간까지 솔직하게 보여주는 오늘의 정보판.">
-  <meta name="color-scheme" content="light dark"><title>오늘의 대구 · 현재 날씨와 7일 예보</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23ccf46f'/%3E%3Ccircle cx='32' cy='32' r='13' fill='%23203229'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="./style.css"><script type="module" src="./app.mjs"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="대구의 현재 날씨, 앞으로 24시간과 7일 예보를 한눈에 확인하세요.">
+  <meta name="color-scheme" content="light dark">
+  <title>오늘의 대구 · 현재 날씨와 예보</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23275dad'/%3E%3Ccircle cx='32' cy='32' r='13' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./service.css">
+  <script type="module" src="./service.mjs"></script>
 </head>
 <body>
-<a class="skip" href="#main">본문으로 이동</a>
-<div class="shell">
-  <header class="topbar"><a class="brand" href="./"><span class="brandmark" aria-hidden="true">◒</span> 오늘의 대구<span class="brand-en">DAEGU, DAILY</span></a><div class="header-actions"><span class="time-label" id="today-label">KST</span><button class="icon-button" id="theme" aria-label="화면 테마 변경">◐</button></div></header>
-  <main id="main">
-    <div class="intro"><div><p class="eyebrow">매일 하나의 값, 솔직한 기록</p><h1>대구의 지금,<br>앞으로의 날씨.</h1><p class="intro-copy">잘 도착한 데이터도, 도착하지 않은 이유도.<br class="mobile-break"> 대구의 변화를 차곡차곡 남깁니다.</p></div><div class="edition"><span>DAILY OBSERVATION</span><strong>35.8714° N<br>128.6014° E</strong><small>대구 · 중구 기준 좌표</small></div></div>
-    <section class="current-grid" aria-label="현재 기온과 어제 비교">
-      <article class="weather-card"><div class="card-top"><span class="label">대구 현재 기온</span><span class="status-pill" id="status-pill">확인 준비 중</span></div><div class="temperature-row"><div><div class="temperature"><span id="temperature">—</span><span class="degree">°C</span></div><p id="value-caption">원천에서 받은 정상값을 기다립니다.</p></div><div class="sun-art" aria-hidden="true"><div class="sun"></div><div class="horizon"></div><div class="horizon second"></div></div></div><div class="weather-bottom"><div><span class="tiny-label">원천 기준 시각 · KST</span><strong id="observed-at">아직 없음</strong></div><div><span class="tiny-label">마지막 정상 수신 · KST</span><strong id="fetched-at">아직 없음</strong></div></div><p class="source-note">Open-Meteo · 15분 간격 기상 모델의 지상 2m 기온 · 기준 시간대 Asia/Seoul (KST). 실측 관측소 값과 다를 수 있습니다.</p></article>
-      <article class="compare-card"><p class="eyebrow">YESTERDAY → TODAY</p><h2>어제와 비교하면</h2><div id="delta" class="delta">—<span>°C</span></div><p id="comparison-reason">어제와 오늘의 공개 기록을 확인합니다.</p><div class="comparison-points"><div><span id="previous-day">어제</span><strong id="previous-value">—</strong></div><span class="arrow" aria-hidden="true">→</span><div><span id="current-day">오늘</span><strong id="current-value">—</strong></div></div><p class="muted small">각 날짜의 최근 정상 수집값끼리 비교합니다.<br>하루 평균이나 최고 기온의 차이는 아닙니다.</p></article>
-    </section>
-    <section class="status-bar" id="status-bar" aria-live="polite"><div class="status-symbol" aria-hidden="true">↗</div><div><strong id="status-title">공개 기록을 불러오는 중입니다</strong><p id="status-detail">새 값을 받을 때까지 저장한 기록을 보존합니다.</p></div><button class="button dark" id="refresh">현재 값 새로 확인 <span aria-hidden="true">↻</span></button></section>
-    <p class="storage-notice" id="storage-notice" role="status" hidden></p>
-    <section class="forecast-section" aria-labelledby="forecast-heading"><div class="section-heading"><div><p class="eyebrow">LOOKING AHEAD</p><h2 id="forecast-heading">대구의 앞으로의 날씨</h2></div><span class="muted small" id="forecast-time">예보 확인 중</span></div><p class="forecast-notice" id="forecast-notice" role="status">예보는 현재 실측값이 아닌 앞으로의 예상입니다.</p><div class="current-details" id="current-details"></div><div class="panel hourly-panel"><h3>앞으로 24시간</h3><p class="small muted">시각별 기온 · 강수확률 · Asia/Seoul</p><div class="hourly-list" id="hourly-list" tabindex="0" aria-label="시간별 예보 가로 목록"></div></div><div class="daily-list" id="daily-list" aria-label="7일 예보"></div></section>
-    <div class="lower-grid">
-      <section class="panel history-panel" aria-labelledby="history-heading"><div class="section-heading"><div><p class="eyebrow">THE DAILY LOG</p><h2 id="history-heading">하루에 한 줄</h2></div><span class="count-badge" id="record-count">0일 기록</span></div><div class="tabs" role="group" aria-label="기록 범위"><button id="public-tab" class="selected" aria-pressed="true">공개 관찰 기록</button><button id="device-tab" aria-pressed="false">이 브라우저 기록</button></div><p class="muted small" id="history-note">실제 수집 후 공개 보관한 기록입니다. 시크릿 창에서도 같습니다.</p><div id="chart" class="chart" aria-label="일별 기온 기록"></div><div class="table-wrap"><table><caption class="sr-only">날짜별 기온과 수집 시각</caption><thead><tr><th scope="col">날짜 · KST</th><th scope="col">기온</th><th scope="col">수집 시각</th><th scope="col">전날 대비</th></tr></thead><tbody id="history-body"></tbody></table></div><div class="empty" id="empty-history" hidden>첫 기록을 기다리고 있어요.<br><span>실제로 도착한 값만 이곳에 남깁니다.</span></div><div class="history-footer"><span id="evidence-progress">실제 날짜 관찰 0 / 2일</span><button class="text-button" id="export">기록 내려받기 ↓</button></div></section>
-      <section class="panel lab-panel" aria-labelledby="lab-heading"><div class="section-heading"><div><p class="eyebrow">WHEN DATA DOESN’T ARRIVE</p><h2 id="lab-heading">데이터가 안 온다면?</h2></div><span class="lab-tag">공식 합성 재생</span></div><p class="muted">합성값 100 → 105로 시작해 실패를 재생합니다.<br>실제 대구 날씨와 관찰 기록은 바뀌지 않습니다.</p><div id="failure-buttons" class="failure-buttons"></div><div class="lab-result" id="lab-result" aria-live="polite"><span class="lab-result-label">재생 준비 중</span><strong>공식 검사 자료를 확인합니다.</strong><p>합성 시계의 D1·D2는 실제 날짜 기록에 포함하지 않습니다.</p></div><div class="lab-reading" id="lab-reading"></div><div class="lab-actions"><button class="text-button" id="run-all">5종 전체 검사 ↗</button><button class="text-button" id="recover-lab">다시 시도 · D2 복구</button><button class="text-button" id="clear-lab">합성 초기화</button></div><details class="lab-contract"><summary>공식 재생 순서와 원본</summary><div class="lab-actions"><button class="text-button" id="normal-a">D1-A · 100</button><button class="text-button" id="normal-b">D1-B · 105</button><button class="text-button" id="normal-d2">D2 · 120</button></div><p id="package-status" class="small muted"></p><a href="./assets/t04-real-information-board-public-v1/README.md" target="_blank" rel="noopener noreferrer">공식 사용법 ↗</a> · <a href="./assets/t04-real-information-board-public-v1/asset-manifest.json" target="_blank" rel="noopener noreferrer">SHA-256 목록 ↗</a></details><p class="lab-footnote">실패 시 합성 마지막 정상값 105 · stale. D2 복구 시 120 · fresh / none · 두 행.</p></section>
-    </div>
-    <section class="panel evidence-panel" aria-labelledby="evidence-heading"><div class="section-heading"><div><p class="eyebrow">TWO REAL DAYS, TRACEABLE VALUES</p><h2 id="evidence-heading">실제 이틀, 원자료와 나란히</h2></div><span class="count-badge" id="review-count">0 / 2일</span></div><p class="muted small">대구 공개 원천을 실제 조회한 두 날짜의 제출용 보관값입니다. 매일 갱신되는 위 기록과 별도로 보존합니다. 서울 기존 기록과 합성 D1·D2는 포함하지 않습니다.</p><div id="evidence-rows"></div><p id="evidence-delta" class="evidence-delta">둘째 실제 날짜 기록을 기다립니다.</p><p class="small muted">원천 URL·시각·값·단위를 과제 화면의 실제 날짜 기록과 대조하세요. 플랫폼 영수증을 이 화면에서 생성하거나 대신 확인하지 않습니다.</p><a href="./data/review-evidence.json" target="_blank" rel="noopener noreferrer" class="text-button">보관한 두 날짜 자료 ↗</a></section>
-    <section class="trust-strip" aria-label="데이터 원칙"><div><span class="trust-number">01</span><h3>출처가 있는 값</h3><p>대구 기준 좌표의 공개 모델 자료를 사용합니다. 개인 위치는 수집하지 않습니다.</p><a href="https://open-meteo.com/en/docs" target="_blank" rel="noopener noreferrer">Open-Meteo 원천 설명 ↗</a></div><div><span class="trust-number">02</span><h3>시간까지 남긴 기록</h3><p>원천 시각과 수집 시각을 구분합니다. 2시간 넘게 지난 값은 새 정상값으로 저장하지 않습니다.</p><a id="source-link" target="_blank" rel="noopener noreferrer">현재 원천 응답 보기 ↗</a></div><div><span class="trust-number">03</span><h3>빈칸도 정직하게</h3><p>어제 기록이 없으면 비교하지 않습니다. 합성값과 과거 자료를 오늘의 실제 기록으로 넣지 않습니다.</p><a href="./data/observations.json" target="_blank" rel="noopener noreferrer">공개 기록 원본 보기 ↗</a></div></section>
-  </main>
-  <footer><span>◒ 오늘의 대구</span><span>Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a> · CC BY 4.0</span><span>모든 시각은 한국 표준시 (KST)</span></footer>
-</div>
-</body></html>
+  <a class="skip-link" href="#main">본문으로 이동</a>
+  <div class="service-shell">
+    <header class="service-header">
+      <a class="service-brand" href="./"><span aria-hidden="true">◒</span> 오늘의 대구</a>
+      <nav class="service-tools" aria-label="화면 설정"><span id="service-date">KST</span><button id="service-theme" type="button" aria-label="화면 테마 변경">◐</button></nav>
+    </header>
+    <main id="main">
+      <section class="location-heading" aria-labelledby="location-title">
+        <div><p class="kicker">DAEGU WEATHER</p><h1 id="location-title">대구의 날씨</h1><p>중구 기준 · 모든 시각 KST</p></div>
+        <button id="service-refresh" type="button" class="refresh-button">새로고침 <span aria-hidden="true">↻</span></button>
+      </section>
+      <p id="service-status" class="service-status" role="status" aria-live="polite">현재 날씨를 확인하고 있습니다.</p>
+      <div class="overview-grid">
+        <article class="current-panel" aria-label="현재 날씨">
+          <div class="current-panel-top"><span>지금 대구는</span><span id="service-badge" class="state-badge">확인 중</span></div>
+          <div class="current-weather"><div><p id="service-condition" class="condition">—</p><div class="current-temperature"><span id="service-temperature">—</span><span class="unit">°C</span></div><p id="service-feels" class="feels-like">체감 기온 확인 중</p></div><div id="service-symbol" class="hero-symbol" aria-hidden="true"></div></div>
+          <div id="service-metrics" class="current-metrics"></div>
+          <p id="service-updated" class="current-updated">정상 수신값을 기다립니다.</p>
+        </article>
+        <aside class="today-panel" aria-labelledby="today-title">
+          <p class="kicker">TODAY</p><h2 id="today-title">오늘 한눈에</h2><p id="service-summary" class="today-summary">예보를 확인하고 있습니다.</p>
+          <div id="service-day-range" class="day-range"></div><div id="service-sun" class="sun-times"></div>
+        </aside>
+      </div>
+      <section class="forecast-section" aria-labelledby="hourly-title">
+        <div class="section-heading"><h2 id="hourly-title">시간별 예보</h2><p>기온 · 강수확률</p></div>
+        <div id="service-hourly" class="hourly-track" tabindex="0" aria-label="24시간 예보, 좌우로 이동"></div>
+      </section>
+      <section class="forecast-section" aria-labelledby="daily-title">
+        <div class="section-heading"><h2 id="daily-title">7일 예보</h2><p>최저·최고 기온 · 강수확률</p></div>
+        <div id="service-daily" class="daily-list"></div>
+      </section>
+      <p id="service-forecast-note" class="forecast-note" role="status">예보는 앞으로의 예상이며 달라질 수 있습니다.</p>
+      <details class="source-details">
+        <summary>데이터 출처와 기준</summary>
+        <div class="source-content">
+          <p>Open-Meteo의 대구 중구 기준 좌표(35.8714, 128.6014) 기상 모델 자료입니다. 현재 기온은 지상 2m 기준이며, 실측 관측소의 값과 다를 수 있습니다.</p>
+          <dl class="source-meta"><div><dt>원천 기준 시각</dt><dd id="service-source-time">아직 없음</dd></div><div><dt>조회 시각</dt><dd id="service-fetch-time">아직 없음</dd></div><div><dt>기준 시간대</dt><dd>Asia/Seoul (KST)</dd></div></dl>
+          <a id="service-source-link" href="https://open-meteo.com/en/docs" target="_blank" rel="noopener noreferrer">원천 응답 보기 ↗</a>
+        </div>
+      </details>
+    </main>
+    <footer class="service-footer"><span>Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a> · CC BY 4.0</span><a href="./review.html">기록·검증 ↗</a></footer>
+  </div>
+</body>
+</html>

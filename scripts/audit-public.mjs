@@ -4,7 +4,9 @@ import path from 'node:path';
 const findings=[];let worktreeFiles=0,historyBlobs=0;
 const signatures=[['GitHub token',/\b(?:gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{50,})\b/],['AWS access key',/\bAKIA[A-Z0-9]{16}\b/],['Google API key',/\bAIza[0-9A-Za-z_-]{30,}\b/],['private key',/-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/],['OpenAI-style key',/\bsk-(?:proj-)?[A-Za-z0-9_-]{35,}\b/]];
 let localSecretValues=[];
-try{const env=await readFile('.env.local','utf8');localSecretValues=env.split(/\r?\n/).filter(line=>!line.startsWith('#')&&line.includes('=')).map(line=>line.slice(line.indexOf('=')+1).replace(/^["']|["']$/g,'')).filter(value=>value.length>=24);}catch(error){if(error.code!=='ENOENT')throw error;}
+for(const envName of (await readdir('.')).filter(name=>/^\.env(?:\..+)?\.local$/.test(name)||name==='.env.local')){
+try{const env=await readFile(envName,'utf8');localSecretValues.push(...env.split(/\r?\n/).filter(line=>!line.startsWith('#')&&line.includes('=')).map(line=>line.slice(line.indexOf('=')+1).replace(/^["']|["']$/g,'')).filter(value=>value.length>=24));}catch(error){if(error.code!=='ENOENT')throw error;}
+}
 function scan(label,bytes){const text=bytes.toString('utf8');for(const [kind,pattern]of signatures)if(pattern.test(text))findings.push({location:label,kind});if(localSecretValues.some(value=>text.includes(value)))findings.push({location:label,kind:'local environment secret value'});}
 async function walk(dir){for(const entry of await readdir(dir,{withFileTypes:true})){const file=path.join(dir,entry.name);if(entry.isDirectory())await walk(file);else{worktreeFiles++;scan(file,await readFile(file));}}}
 for(const dir of ['public','docs'])await walk(dir);
