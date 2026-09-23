@@ -36,3 +36,7 @@
 공개 확인 당시 기상청 기온 27.7°C(원천 16:00 KST), 수창동 PM10 19·PM2.5 7 µg/m³(원천 17:00 KST)를 표시했다. 이후 값은 달라진다.
 
 `review.html`의 기존 Open-Meteo 실제 두 날짜 원문·일별 값·공식 합성 fixture는 바꾸지 않았다. 새 기상청 값을 그 두 날짜 비교에 섞지 않는다. 플랫폼 `t04_day` 봉인 영수증과 실제 제출 여부는 여전히 미확인이다.
+
+## 공개 소스·배포 대조
+
+[구현 전체 커밋](https://github.com/PeterAhnn/SKT-ALEPH-Project-4-Dashboard/commit/56e718850eda67a1cd3fa9c4bbb8c2efceccd58f)의 무인증 HTTP 200 접근을 확인했습니다. 공개 파일 14개가 작업 폴더의 줄바꿈이 아닌 해당 Git 커밋 원본과 SHA-256까지 일치합니다. [대조 결과](verification/portal-public-hashes.json).

@@ -1,6 +1,6 @@
 # 과제 4 · 대구 날씨 현황판 제출 문안
 
-> 메인은 기상청·에어코리아, 기록·검증 화면의 과제 증거는 기존 Open-Meteo 자료입니다. 서로 다른 원천을 어제 대비로 섞지 않습니다. 실제 KST 두 날짜 자료와 원자료·저장값·화면값·변화 대조를 확인했습니다. 플랫폼 봉인 영수증 및 실제 제출은 미확인입니다. 메인·검증 화면과 전체 커밋 소스의 무인증 접근, 배포 파일 13개 SHA-256 일치를 확인했습니다.
+> 메인은 기상청·에어코리아, 기록·검증 화면의 과제 증거는 기존 Open-Meteo 자료입니다. 서로 다른 원천을 어제 대비로 섞지 않습니다. 실제 KST 두 날짜 자료와 원자료·저장값·화면값·변화 대조를 확인했습니다. 플랫폼 봉인 영수증 및 실제 제출은 미확인입니다. 메인·검증 화면과 전체 커밋 소스의 무인증 접근, 새 연동의 공개 파일 14개가 제출 소스 커밋과 SHA-256까지 일치함을 확인했습니다.
 
 ## 결과물 URL (필수)
 
@@ -8,7 +8,7 @@ https://skt-aleph-project-4-dashboard.vercel.app
 
 ## 소스 저장소 URL
 
-https://github.com/PeterAhnn/SKT-ALEPH-Project-4-Dashboard/commit/9f6d858d244f962f7ab104a2c14f9a029b1f9a28
+https://github.com/PeterAhnn/SKT-ALEPH-Project-4-Dashboard/commit/56e718850eda67a1cd3fa9c4bbb8c2efceccd58f
 
 ## 재현·통과 확인 4가지
 
