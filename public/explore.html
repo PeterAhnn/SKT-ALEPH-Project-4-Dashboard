@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="기상청의 레이더·위성 영상, 대구 생활기상지수, 종관관측과 대구공항 날씨를 확인하세요.">
+  <meta name="color-scheme" content="light dark"><title>날씨 더 보기 · 오늘의 대구</title>
+  <link rel="stylesheet" href="./service.css"><link rel="stylesheet" href="./explore.css">
+  <script type="module" src="./explore.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">본문으로 이동</a>
+  <div class="service-shell">
+    <header class="service-header"><a class="service-brand" href="./">오늘의 대구</a><div class="service-tools"><span>Asia/Seoul · KST</span><button id="service-theme" type="button" aria-label="화면 테마 변경">◐</button></div></header>
+    <nav class="service-nav" aria-label="날씨 메뉴"><a href="./">오늘 날씨</a><a href="#images" data-page="images">기상 영상</a><a href="#life" data-page="life">생활 날씨</a><a href="#observations" data-page="observations">관측 기록</a><a href="#airport" data-page="airport">대구공항</a></nav>
+    <main id="main">
+      <section class="location-heading"><div><p class="kicker" id="page-kicker">WEATHER IMAGERY</p><h1 id="page-title">하늘의 흐름</h1><p id="page-description">비구름과 위성 영상을 원본 범례와 함께 봅니다.</p></div><button id="explore-refresh" class="refresh-button" type="button">새로고침</button></section>
+      <div id="explore-content" class="explore-grid"></div>
+      <p class="forecast-note" id="explore-storage" role="status"></p>
+      <p class="explore-footnote">자료마다 지역 범위와 발표 주기가 다릅니다. 원천 시각과 조회 시각을 함께 확인하세요. 예보는 앞으로의 예상이며 달라질 수 있습니다.</p>
+    </main>
+    <footer class="service-footer"><span>자료: 기상청 · 공공데이터포털</span><a href="./review.html">기록·검증 ↗</a></footer>
+  </div>
+</body>
+</html>

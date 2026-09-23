@@ -9,7 +9,7 @@ try{const env=await readFile(envName,'utf8');localSecretValues.push(...env.split
 }
 function scan(label,bytes){const text=bytes.toString('utf8');for(const [kind,pattern]of signatures)if(pattern.test(text))findings.push({location:label,kind});if(localSecretValues.some(value=>text.includes(value)))findings.push({location:label,kind:'local environment secret value'});}
 async function walk(dir){for(const entry of await readdir(dir,{withFileTypes:true})){const file=path.join(dir,entry.name);if(entry.isDirectory())await walk(file);else{worktreeFiles++;scan(file,await readFile(file));}}}
-for(const dir of ['public','docs'])await walk(dir);
+for(const dir of ['public','docs','api','lib'])await walk(dir);
 const objectLines=execFileSync('git',['rev-list','--objects','--all'],{encoding:'utf8'}).trim().split('\n');
 const objectPaths=new Map(objectLines.map(line=>{const index=line.indexOf(' ');return[index<0?line:line.slice(0,index),index<0?'':line.slice(index+1)];}));
 const data=execFileSync('git',['cat-file','--batch'],{input:[...objectPaths.keys()].join('\n')+'\n',maxBuffer:64*1024*1024});
