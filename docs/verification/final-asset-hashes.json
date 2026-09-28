@@ -1,0 +1,70 @@
+[
+  {
+    "path": "README.md",
+    "matches": true
+  },
+  {
+    "path": "adapter-reset.example.js",
+    "matches": true
+  },
+  {
+    "path": "criterion-registry.json",
+    "matches": true
+  },
+  {
+    "path": "fixture-manifest.json",
+    "matches": true
+  },
+  {
+    "path": "fixture.schema.json",
+    "matches": true
+  },
+  {
+    "path": "fixtures/auth-401.json",
+    "matches": true
+  },
+  {
+    "path": "fixtures/normal-d1-a.json",
+    "matches": true
+  },
+  {
+    "path": "fixtures/normal-d1-b.json",
+    "matches": true
+  },
+  {
+    "path": "fixtures/normal-d2.json",
+    "matches": true
+  },
+  {
+    "path": "fixtures/offline.json",
+    "matches": true
+  },
+  {
+    "path": "fixtures/rate-429.json",
+    "matches": true
+  },
+  {
+    "path": "fixtures/recover-d2.json",
+    "matches": true
+  },
+  {
+    "path": "fixtures/schema-break.json",
+    "matches": true
+  },
+  {
+    "path": "fixtures/timeout.json",
+    "matches": true
+  },
+  {
+    "path": "normalized-reading.schema.json",
+    "matches": true
+  },
+  {
+    "path": "public-contract.json",
+    "matches": true
+  },
+  {
+    "path": "reading-status.schema.json",
+    "matches": true
+  }
+]

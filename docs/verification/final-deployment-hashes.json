@@ -1,0 +1,80 @@
+[
+  {
+    "path": "index.html",
+    "status": 200,
+    "sha256": "207a8c165cf0a188235a04fe73a7c45f8c722333f0415eece024fd3dbca1e199",
+    "matchesLocal": true
+  },
+  {
+    "path": "service.mjs",
+    "status": 200,
+    "sha256": "0dac7b93c7246e4d0d18db6f7ab94dbe0950b75512ad18a8539d7af85a27ba93",
+    "matchesLocal": true
+  },
+  {
+    "path": "service.css",
+    "status": 200,
+    "sha256": "61401dd6657364672be68d730d522e5d51d9154c327457c508888e874a7d09c6",
+    "matchesLocal": true
+  },
+  {
+    "path": "review.html",
+    "status": 200,
+    "sha256": "daba65af0c488b45ef9977baff784374637c4ed704c73b6c32c4eba0efcd38ff",
+    "matchesLocal": true
+  },
+  {
+    "path": "review.css",
+    "status": 200,
+    "sha256": "e626d6f74f61400031517cb3686e07815fda7f2cb68602c25bde5fd7cda6de94",
+    "matchesLocal": true
+  },
+  {
+    "path": "app.mjs",
+    "status": 200,
+    "sha256": "ad4f1c1c2fc7e8b2283f4bb8ff59abc9bf2f0c57d640eb7a59492b00050fa0f8",
+    "matchesLocal": true
+  },
+  {
+    "path": "core.mjs",
+    "status": 200,
+    "sha256": "972b44820487c8bf18b780aba07bf2ef47b56d8651214cfca765bbf4672196c4",
+    "matchesLocal": true
+  },
+  {
+    "path": "weather-view.mjs",
+    "status": 200,
+    "sha256": "c61afaa81ce6d1d67f6564a4e1e300008267bed03d5402228937a550bc3012f2",
+    "matchesLocal": true
+  },
+  {
+    "path": "fixture-adapter.mjs",
+    "status": 200,
+    "sha256": "1d6c4b07ded3ee935b6a71916e643366c589fcc2fc0aa90fc75c3aae137f8fcf",
+    "matchesLocal": true
+  },
+  {
+    "path": "style.css",
+    "status": 200,
+    "sha256": "4d54cd0a4b09b019cf648744a68a4a50122eec5c3f5992ca74cd38691d675059",
+    "matchesLocal": true
+  },
+  {
+    "path": "data/observations.json",
+    "status": 200,
+    "sha256": "102ca15f0f3f6161c6d994bb56e3ba51a0ee5a84f17dc86dab16f3d5b17ed5dd",
+    "matchesLocal": true
+  },
+  {
+    "path": "data/review-evidence.json",
+    "status": 200,
+    "sha256": "ed2d191f6f6aae54aa361cefed1d6f695cfd0c67cabff16098b634c197d05dcf",
+    "matchesLocal": true
+  },
+  {
+    "path": "data/weather.json",
+    "status": 200,
+    "sha256": "3b50f15f4f0bd0a07026113c6ec7d947d5f647f28be8f22bbb43bd019ba35ffb",
+    "matchesLocal": true
+  }
+]

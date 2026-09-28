@@ -4,6 +4,8 @@
 대구 날씨를 일상적으로 확인하는 깔끔한 서비스와 과제 4 검증을 함께 제공한다. 공공데이터포털의 기상청 API를 조사하고 읍면동 선택·예보·특보 등 확장을 준비한다.
 
 ## 2. 현재 상태
+2026-09-28 제출 전 점검: docs/FINAL-REPORT.md와 docs/SUBMISSION.md 우선. 자동 65/65, 공개 검증 27/27, 원자료 4/4 통과. 앱의 실제 이틀 자료는 검증됐지만 ALEPH T04 선택 과정 기록은 현재 0개로 직접 확인했다. 제출·승인은 가능하나 공식 후행 계약의 플랫폼 날짜 증거는 미충족. 실제 제출은 하지 않았다. 보고서 PDF는 output/pdf/T04-verification-report.pdf.
+
 2026-09-28 최신 변경은 `docs/REGIONAL-HUB-UPDATE.md`가 우선한다. 사용자가 API허브 사용을 새로 승인했고 `KMA_APIHUB_KEY`를 Vercel 세 환경에 등록했다. 지역 선택·알림·빈 카드 숨김과 관측/위성 확장을 적용했다.
 
 2026-09-23 확장: 상단에 기상 영상·생활 날씨·관측 기록·대구공항 메뉴를 추가했다. `public/explore.*`, `explore-client.mjs`, `lib/weather-extras.mjs`, `portal-source.mjs`를 사용한다. 정확한 적용·보류 범위와 항공 API 제한은 `docs/EXTENDED-SERVICES.md`를 먼저 읽는다. 아래 기본 연동 당시의 미구현 목록보다 이 확장 문서가 우선한다.

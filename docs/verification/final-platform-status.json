@@ -1,0 +1,15 @@
+{
+  "checkedDateKST": "2026-09-28",
+  "url": "https://aleph-omega.vercel.app/cortex?panel=tasks",
+  "task": "T04",
+  "observedProcessRecordCount": 0,
+  "submissionBlockedByMissingProcessRecords": false,
+  "observedWording": [
+    "선택 과정 기록 남기기 · 제출과 승인에는 영향 없음",
+    "현재 과정 기록 0개 보기",
+    "실제 이틀 판정은 별도로 플랫폼의 Asia/Seoul 서버 날짜를 사용합니다."
+  ],
+  "personalInformationIncluded": false,
+  "recordsCreatedByAgent": 0,
+  "submittedByAgent": false
+}
