@@ -4,7 +4,7 @@
 대구 날씨를 일상적으로 확인하는 깔끔한 서비스와 과제 4 검증을 함께 제공한다. 공공데이터포털의 기상청 API를 조사하고 읍면동 선택·예보·특보 등 확장을 준비한다.
 
 ## 2. 현재 상태
-2026-09-28 제출 전 점검: docs/FINAL-REPORT.md와 docs/SUBMISSION.md 우선. 자동 65/65, 공개 검증 27/27, 원자료 4/4 통과. 앱의 실제 이틀 자료는 검증됐지만 ALEPH T04 선택 과정 기록은 현재 0개로 직접 확인했다. 제출·승인은 가능하나 공식 후행 계약의 플랫폼 날짜 증거는 미충족. 실제 제출은 하지 않았다. 보고서 PDF는 output/pdf/T04-verification-report.pdf.
+2026-09-28 제출 전 점검: docs/FINAL-REPORT.md와 docs/SUBMISSION.md 우선. 자동 65/65, 공개 검증 27/27, 원자료 4/4 통과. 앱의 실제 이틀 자료는 검증됐지만 ALEPH T04 선택 과정 기록은 9월 28일 24.7°C로 첫날 1개 등록 완료. public/data/platform-evidence.json에 실제 원문 경로를 보존했다. 9월 29일 이후 같은 원천 실제 조회·등록 한 건과 두 값 대조가 남았다. 제출·승인은 가능하나 공식 후행 계약의 플랫폼 날짜 증거는 미충족. 실제 제출은 하지 않았다. 보고서 PDF는 output/pdf/T04-verification-report.pdf.
 
 2026-09-28 최신 변경은 `docs/REGIONAL-HUB-UPDATE.md`가 우선한다. 사용자가 API허브 사용을 새로 승인했고 `KMA_APIHUB_KEY`를 Vercel 세 환경에 등록했다. 지역 선택·알림·빈 카드 숨김과 관측/위성 확장을 적용했다.
 

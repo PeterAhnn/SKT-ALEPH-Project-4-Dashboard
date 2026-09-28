@@ -2,14 +2,27 @@
   "checkedDateKST": "2026-09-28",
   "url": "https://aleph-omega.vercel.app/cortex?panel=tasks",
   "task": "T04",
-  "observedProcessRecordCount": 0,
+  "observedProcessRecordCount": 1,
   "submissionBlockedByMissingProcessRecords": false,
   "observedWording": [
-    "선택 과정 기록 남기기 · 제출과 승인에는 영향 없음",
-    "현재 과정 기록 0개 보기",
-    "실제 이틀 판정은 별도로 플랫폼의 Asia/Seoul 서버 날짜를 사용합니다."
+    "현재 과정 기록 1개 보기",
+    "실제 공개 원천 기록 · 2026-09-28",
+    "실제 공개 원천 기록 기록을 남겼습니다."
   ],
   "personalInformationIncluded": false,
-  "recordsCreatedByAgent": 0,
-  "submittedByAgent": false
+  "recordsCreatedByAgent": 1,
+  "submittedByAgent": false,
+  "recordDateKST": "2026-09-28",
+  "submittedReading": {
+    "value": 24.7,
+    "observedAt": "2026-09-28T17:00:00+09:00",
+    "fetchedAt": "2026-09-28T08:14:50.222Z",
+    "kstDate": "2026-09-28",
+    "sourceId": "open-meteo-daegu",
+    "sourceUrl": "https://api.open-meteo.com/v1/forecast?latitude=35.8714&longitude=128.6014&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m&hourly=temperature_2m,precipitation_probability,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunrise,sunset&timezone=Asia%2FSeoul&forecast_days=7",
+    "unit": "°C",
+    "kind": "real"
+  },
+  "evidencePath": "public/data/evidence/2026-09-28T08-14-50.222Z.json",
+  "secondActualDayPending": true
 }

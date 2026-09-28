@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "sourceId": "open-meteo-daegu",
+  "purpose": "Actual readings submitted to ALEPH process records; not a platform-signed receipt",
+  "records": [
+    {
+      "reading": {
+        "value": 24.7,
+        "observedAt": "2026-09-28T17:00:00+09:00",
+        "fetchedAt": "2026-09-28T08:14:50.222Z",
+        "kstDate": "2026-09-28",
+        "sourceId": "open-meteo-daegu",
+        "sourceUrl": "https://api.open-meteo.com/v1/forecast?latitude=35.8714&longitude=128.6014&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m&hourly=temperature_2m,precipitation_probability,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunrise,sunset&timezone=Asia%2FSeoul&forecast_days=7",
+        "unit": "°C",
+        "kind": "real"
+      },
+      "evidencePath": "data/evidence/2026-09-28T08-14-50.222Z.json",
+      "responseSha256": "c827bce8f037a97c0b2fcab0f568eee1c141438ee17982a14aa9e79403e376b7",
+      "platformDateObserved": "2026-09-28",
+      "platformUiRecordCountAfterSave": 1
+    }
+  ],
+  "nextStep": "On another actual KST date, collect the same public source, submit one process record, then compare the two actual records. Do not alter system dates."
+}
