@@ -6,7 +6,7 @@ https://skt-aleph-project-4-dashboard.vercel.app/
 
 ## 소스 저장소 URL
 
-https://github.com/PeterAhnn/SKT-ALEPH-Project-4-Dashboard/commit/8cdf80bca9ca47b147fc7073844a400b53f1de29
+https://github.com/PeterAhnn/SKT-ALEPH-Project-4-Dashboard/commit/5bb5f13af8e54bf9aa6faf2e3aa51547369be502
 
 ## 재현·통과 확인 4가지
 
