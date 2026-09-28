@@ -1,0 +1,210 @@
+[
+  {
+    "kind": "current",
+    "ok": true,
+    "type": null,
+    "error": null,
+    "count": null,
+    "fetchedAt": "2026-09-28T07:56:19.890Z"
+  },
+  {
+    "kind": "warnings",
+    "ok": true,
+    "type": null,
+    "error": null,
+    "count": null,
+    "fetchedAt": "2026-09-28T07:56:20.075Z"
+  },
+  {
+    "kind": "mid",
+    "ok": true,
+    "type": null,
+    "error": null,
+    "count": null,
+    "fetchedAt": "2026-09-28T07:56:20.299Z"
+  },
+  {
+    "kind": "forecast",
+    "ok": true,
+    "type": null,
+    "error": null,
+    "count": null,
+    "fetchedAt": "2026-09-28T07:56:20.236Z"
+  },
+  {
+    "kind": "dust",
+    "ok": true,
+    "type": "empty",
+    "error": null,
+    "count": null,
+    "fetchedAt": "2026-09-28T07:56:25.976Z"
+  },
+  {
+    "kind": "surface",
+    "ok": true,
+    "type": "metrics",
+    "error": null,
+    "count": 9,
+    "fetchedAt": "2026-09-28T07:56:26.084Z"
+  },
+  {
+    "kind": "air",
+    "ok": true,
+    "type": null,
+    "error": null,
+    "count": null,
+    "fetchedAt": "2026-09-28T07:56:26.069Z"
+  },
+  {
+    "kind": "uvObserved",
+    "ok": true,
+    "type": "metrics",
+    "error": null,
+    "count": 1,
+    "fetchedAt": "2026-09-28T07:56:26.688Z"
+  },
+  {
+    "kind": "satVisible",
+    "ok": true,
+    "type": "images",
+    "error": null,
+    "count": 12,
+    "fetchedAt": "2026-09-28T07:56:31.908Z"
+  },
+  {
+    "kind": "satWater",
+    "ok": true,
+    "type": "images",
+    "error": null,
+    "count": 12,
+    "fetchedAt": "2026-09-28T07:56:32.138Z"
+  },
+  {
+    "kind": "satColor",
+    "ok": true,
+    "type": "images",
+    "error": null,
+    "count": 12,
+    "fetchedAt": "2026-09-28T07:56:32.206Z"
+  },
+  {
+    "kind": "nowcast",
+    "ok": true,
+    "type": "nowcast",
+    "error": null,
+    "count": 6,
+    "fetchedAt": "2026-09-28T07:56:32.670Z"
+  },
+  {
+    "kind": "satellite",
+    "ok": true,
+    "type": "images",
+    "error": null,
+    "count": 12,
+    "fetchedAt": "2026-09-28T07:56:38.185Z"
+  },
+  {
+    "kind": "radar",
+    "ok": true,
+    "type": "images",
+    "error": null,
+    "count": 12,
+    "fetchedAt": "2026-09-28T07:56:38.237Z"
+  },
+  {
+    "kind": "chart",
+    "ok": true,
+    "type": "images",
+    "error": null,
+    "count": 1,
+    "fetchedAt": "2026-09-28T07:56:38.436Z"
+  },
+  {
+    "kind": "lightning",
+    "ok": true,
+    "type": "images",
+    "error": null,
+    "count": 1,
+    "fetchedAt": "2026-09-28T07:56:38.532Z"
+  },
+  {
+    "kind": "uv",
+    "ok": true,
+    "type": "index",
+    "error": null,
+    "count": 19,
+    "fetchedAt": "2026-09-28T07:56:44.297Z"
+  },
+  {
+    "kind": "diffusion",
+    "ok": true,
+    "type": "index",
+    "error": null,
+    "count": 19,
+    "fetchedAt": "2026-09-28T07:56:44.310Z"
+  },
+  {
+    "kind": "pollen",
+    "ok": true,
+    "type": "index",
+    "error": null,
+    "count": 3,
+    "fetchedAt": "2026-09-28T07:56:44.481Z"
+  },
+  {
+    "kind": "impact",
+    "ok": true,
+    "type": "empty",
+    "error": null,
+    "count": null,
+    "fetchedAt": "2026-09-28T07:56:44.525Z"
+  },
+  {
+    "kind": "typhoon",
+    "ok": true,
+    "type": "typhoon",
+    "error": null,
+    "count": 1,
+    "fetchedAt": "2026-09-28T07:56:50.504Z"
+  },
+  {
+    "kind": "observations",
+    "ok": true,
+    "type": "observations",
+    "error": null,
+    "count": 24,
+    "fetchedAt": "2026-09-28T07:56:50.735Z"
+  },
+  {
+    "kind": "takeoff",
+    "ok": true,
+    "type": "takeoff",
+    "error": null,
+    "count": 4,
+    "fetchedAt": "2026-09-28T07:56:50.710Z"
+  },
+  {
+    "kind": "airport",
+    "ok": true,
+    "type": "airport",
+    "error": null,
+    "count": null,
+    "fetchedAt": "2026-09-28T07:56:50.506Z"
+  },
+  {
+    "kind": "taf",
+    "ok": true,
+    "type": "empty",
+    "error": null,
+    "count": null,
+    "fetchedAt": "2026-09-28T07:56:55.548Z"
+  },
+  {
+    "kind": "airportBrief",
+    "ok": true,
+    "type": "empty",
+    "error": null,
+    "count": null,
+    "fetchedAt": "2026-09-28T07:56:55.941Z"
+  }
+]

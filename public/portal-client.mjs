@@ -27,11 +27,12 @@ export function combineWeather(parts) {
   if(!parts.current&&!parts.forecast)return null;
   return {current:parts.current?.data??null,reading:{observedAt:parts.current?.data.observedAt??null},fetchedAt:parts.current?.fetchedAt??null,hourly:parts.forecast?.data.hourly??[],daily:parts.forecast?.data.daily??[],forecast:{message:''}};
 }
-export async function fetchPart(kind,fetchImpl=fetch) {
+export async function fetchPart(kind,fetchImpl=fetch,regionId=null) {
   if(typeof navigator!=='undefined'&&navigator.onLine===false)throw new Error('오프라인입니다. 인터넷 연결 후 다시 시도해 주세요.');
   let response,payload;
-  try{response=await fetchImpl(`/api/weather?kind=${kind}`,{signal:AbortSignal.timeout(30000)});payload=await response.json();}
+  try{response=await fetchImpl(`/api/weather?kind=${kind}${regionId?"&region="+encodeURIComponent(regionId):""}`,{signal:AbortSignal.timeout(30000)});payload=await response.json();}
   catch(error){throw new Error(['TimeoutError','AbortError'].includes(error.name)?'응답이 늦어지고 있습니다. 잠시 후 다시 시도해 주세요.':'자료를 받지 못했습니다. 연결을 확인하고 다시 시도해 주세요.');}
   if(!response.ok||!validPart(payload,kind))throw new Error(payload?.error?.message||'응답 형식이 달라 새 값으로 저장하지 않았습니다.');
+  if(regionId&&payload.regionId!==regionId)throw new Error("선택 지역과 다른 응답을 저장하지 않았습니다.");
   return payload;
 }

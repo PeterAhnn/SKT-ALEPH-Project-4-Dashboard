@@ -1,3 +1,7 @@
+import {mountLocation,regionLabel} from './location.mjs';
+import {initAlerts} from './alerts.mjs';
+const region=mountLocation();
+const regionalCacheKey=CACHE_KEY+':'+region.id;
 import {CONFIG,PAGES,CACHE_KEY,validExtra,extraOld,fetchExtra,safeImage,indexLevel} from './explore-client.mjs';
 const $=id=>document.getElementById(id);
 const el=(tag,content='',className='')=>Object.assign(document.createElement(tag),{textContent:content,className});
@@ -7,8 +11,8 @@ const dateTime=value=>value&&Number.isFinite(Date.parse(value))?new Intl.DateTim
 const number=(v,unit='')=>Number.isFinite(v)?`${v}${unit}`:'자료 없음';
 function link(label,url){const a=el('a',label);a.href=url;a.target='_blank';a.rel='noopener noreferrer';return a;}
 function button(label,action){const b=el('button',label,'small-button');b.type='button';b.addEventListener('click',action);return b;}
-function save(){try{localStorage.setItem(CACHE_KEY,JSON.stringify(parts));}catch{$('explore-storage').textContent='이 브라우저에 값을 저장하지 못했습니다. 새로고침하면 이전 수신값이 사라질 수 있습니다.';}}
-try{const stored=JSON.parse(localStorage.getItem(CACHE_KEY)||'{}');for(const kind of Object.keys(CONFIG))if(validExtra(stored[kind],kind))parts[kind]=stored[kind];}catch{}
+function save(){try{localStorage.setItem(regionalCacheKey,JSON.stringify(parts));}catch{$('explore-storage').textContent='이 브라우저에 값을 저장하지 못했습니다. 새로고침하면 이전 수신값이 사라질 수 있습니다.';}}
+try{const stored=JSON.parse(localStorage.getItem(regionalCacheKey)||(region.id==='2711000000'?localStorage.getItem(CACHE_KEY):null)||'{}');for(const kind of Object.keys(CONFIG))if(validExtra(stored[kind],kind))parts[kind]=stored[kind];}catch{}
 function metric(label,value){const d=el('div');d.append(el('span',label),el('strong',value));return d;}
 function renderImage(d,content,kind){
   let index=d.frames.length-1;
@@ -18,7 +22,7 @@ function renderImage(d,content,kind){
   const controls=el('div','','image-controls'),range=el('input'),label=el('label','영상 선택'),output=el('output');
   range.type='range';range.min=0;range.max=d.frames.length-1;range.value=index;range.id=`frame-${kind}`;label.htmlFor=range.id;
   const show=()=>{const f=d.frames[index];image.hidden=false;error.hidden=true;image.src=f.url;image.alt=`${CONFIG[kind].title} · ${f.observedAt?dateTime(f.observedAt):'시각은 영상 안에 표시'}`;original.href=f.url;caption.textContent=f.observedAt?`원천 시각 ${dateTime(f.observedAt)}`:'원천 시각·색상·단위는 영상 안의 표기를 확인하세요.';range.value=index;output.value=`${index+1}/${d.frames.length}`;};
-  image.addEventListener('error',()=>{error.hidden=false;image.hidden=true;});
+  image.addEventListener('error',()=>{error.hidden=false;image.hidden=true;document.querySelector(`[data-kind="${kind}"]`).hidden=true;updateRefresh();});
   range.addEventListener('input',()=>{index=+range.value;show();});
   controls.append(label,button('‹',()=>{index=Math.max(0,index-1);show();}),range,button('›',()=>{index=Math.min(d.frames.length-1,index+1);show();}),output);
   controls.querySelectorAll('button').forEach((b,i)=>b.setAttribute('aria-label',i?'다음 영상':'이전 영상'));
@@ -71,11 +75,14 @@ function renderBulletin(d,content){
 function renderCard(kind){
   const card=document.querySelector(`[data-kind="${kind}"]`);if(!card)return;
   const c=CONFIG[kind],p=parts[kind],d=p?.data,loading=pending.has(kind),old=Boolean(p&&(errors[kind]||extraOld(p)||!checked.has(kind))),state=card.querySelector('.card-state');
+  card.hidden=!d||d.type==='empty';
   state.textContent=loading?'확인 중':errors[kind]?p?'이전 수신값':'수신 실패':!p?'수신 대기':old?'이전 수신값':d.type==='empty'?'자료 없음':'조회 완료';state.dataset.stale=old;
   const notice=card.querySelector('.card-notice');notice.dataset.error=Boolean(errors[kind]);notice.textContent=errors[kind]?`${errors[kind]}${p?' 마지막 정상 응답을 보존했습니다.':' 저장된 자료가 아직 없습니다.'}`:old?'이전 수신 자료입니다. 새로고침하여 최신 발표를 확인하세요.':d?.type==='empty'?d.message:'';
   const content=card.querySelector('.card-content');content.replaceChildren();
   if(d&&d.type!=='empty'){
-    if(d.type==='images')renderImage(d,content,kind);
+    if(d.type==='metrics'){const grid=el('div','','metrics-grid');for(const m of d.metrics)grid.append(metric(m.label,number(m.value,' '+m.unit)));content.append(grid);}
+    else if(d.type==='nowcast'){for(const r of d.rows){const row=el('div','','near-row');for(const v of [new Date(r.time).toLocaleTimeString('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit',hour12:false}),number(r.temperature,' °C'),r.rainType>0?'강수 예상':r.sky,`강수량 ${r.rain||'미제공'} · 습도 ${number(r.humidity,'%')}`])row.append(el('span',v));content.append(row);}}
+    else if(d.type==='images')renderImage(d,content,kind);
     else if(d.type==='index')renderIndex(d,content,kind);
     else if(d.type==='airport')renderAirport(d,content);
     else if(d.type==='takeoff')renderTakeoff(d,content);
@@ -88,18 +95,18 @@ function renderCard(kind){
   card.querySelector('.card-meta').textContent=p?`${sourceTime?'원천 '+dateTime(sourceTime)+' · ':d?.type==='images'?'원천 시각: 영상 표기 기준 · ':''}조회 ${dateTime(p.fetchedAt)}`:'아직 정상 수신한 자료가 없습니다.';
   const retry=card.querySelector('.card-retry');retry.disabled=loading;retry.textContent=loading?'확인 중…':errors[kind]?'다시 시도':'새로고침';
 }
-function updateRefresh(){const busy=PAGES[page].kinds.some(k=>pending.has(k));$('explore-refresh').disabled=busy;$('explore-refresh').textContent=busy?'확인 중…':'새로고침';}
+function updateRefresh(){const busy=PAGES[page].kinds.some(k=>pending.has(k));$('explore-refresh').disabled=busy;$('explore-refresh').textContent=busy?'확인 중…':'새로고침';const visible=[...document.querySelectorAll('[data-kind]')].filter(c=>!c.hidden).length;$('explore-availability').textContent=busy&&!visible?'자료를 확인하고 있습니다.':!visible?'현재 표시할 자료가 없습니다. 새로고침하면 다시 확인합니다.':PAGES[page].kinds.some(k=>!parts[k]||parts[k].data.type==='empty')?'수신된 자료만 표시합니다. 미수신·미발표 항목은 새로고침할 때 다시 확인합니다.':'';}
 async function load(kind){
   if(pending.has(kind))return pending.get(kind);
-  const task=(async()=>{try{const incoming=await fetchExtra(kind);if(incoming.data.type==='empty'&&parts[kind]&&parts[kind].data.type!=='empty'){errors[kind]=`${incoming.data.message} (조회 ${dateTime(incoming.fetchedAt)})`;}else{parts[kind]=incoming;delete errors[kind];}checked.add(kind);save();}catch(e){errors[kind]=e.message;checked.add(kind);}finally{pending.delete(kind);renderCard(kind);updateRefresh();}})();
+  const task=(async()=>{try{const incoming=await fetchExtra(kind,fetch,region.id);if(incoming.data.type==='empty'&&parts[kind]&&parts[kind].data.type!=='empty'){errors[kind]=`${incoming.data.message} (조회 ${dateTime(incoming.fetchedAt)})`;}else{parts[kind]=incoming;delete errors[kind];}checked.add(kind);save();}catch(e){errors[kind]=e.message;checked.add(kind);}finally{pending.delete(kind);renderCard(kind);updateRefresh();}})();
   pending.set(kind,task);renderCard(kind);updateRefresh();return task;
 }
 function showPage(){
   page=Object.hasOwn(PAGES,location.hash.slice(1))?location.hash.slice(1):'images';const p=PAGES[page];
-  document.title=`${p.title} · 오늘의 대구`;$('page-title').textContent=p.title;$('page-kicker').textContent=p.kicker;$('page-description').textContent=p.description;
+  document.title=`${p.title} · 오늘의 대구`;$('page-title').textContent=p.title;$('page-kicker').textContent=p.kicker;$('page-description').textContent=(page==='near'?regionLabel(region)+' · ':'')+p.description;
   document.querySelectorAll('[data-page]').forEach(a=>{if(a.dataset.page===page)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
   const container=$('explore-content');container.replaceChildren();
-  for(const kind of p.kinds){const c=CONFIG[kind],card=el('article','',`explore-card${['airport','takeoff','observations','typhoon'].includes(kind)?' wide':''}`);card.dataset.kind=kind;card.setAttribute('aria-labelledby',`title-${kind}`);const top=el('div','','card-top'),title=el('h2',c.title);title.id=`title-${kind}`;top.append(title,el('span','','card-state'));const notice=el('p','','card-notice');notice.setAttribute('role','status');const bottom=el('div','','card-bottom'),retry=button('새로고침',()=>load(kind));retry.classList.add('card-retry');retry.setAttribute('aria-label',`${c.title} 다시 조회`);bottom.append(link('기상청 출처 ↗',`https://www.data.go.kr/data/${c.source}/openapi.do`),retry);card.append(top,el('p',c.hint,'card-hint'),el('div','','card-content'),notice,el('p','','card-meta'),bottom);container.append(card);renderCard(kind);}
+  for(const kind of p.kinds){const c=CONFIG[kind],card=el('article','',`explore-card${['airport','takeoff','observations','typhoon'].includes(kind)?' wide':''}`);card.dataset.kind=kind;card.setAttribute('aria-labelledby',`title-${kind}`);const top=el('div','','card-top'),title=el('h2',c.title);title.id=`title-${kind}`;top.append(title,el('span','','card-state'));const notice=el('p','','card-notice');notice.setAttribute('role','status');const bottom=el('div','','card-bottom'),retry=button('새로고침',()=>load(kind));retry.classList.add('card-retry');retry.setAttribute('aria-label',`${c.title} 다시 조회`);bottom.append(link('기상청 출처 ↗',c.sourceUrl||`https://www.data.go.kr/data/${c.source}/openapi.do`),retry);card.append(top,el('p',c.hint,'card-hint'),el('div','','card-content'),notice,el('p','','card-meta'),bottom);container.append(card);renderCard(kind);}
   if(page==='airport')container.append(el('p','공항 관측과 도심 날씨는 서로 다를 수 있습니다. 지연·결항 여부는 항공사와 공항의 운항 안내에서 확인하세요. 이 화면은 여행 전 참고용 기상정보입니다.','airport-note'));
   for(const kind of p.kinds)if(!checked.has(kind)||extraOld(parts[kind]))load(kind);
   updateRefresh();
@@ -108,6 +115,7 @@ let theme;try{theme=localStorage.getItem('daegu-theme');}catch{}
 document.documentElement.dataset.theme=theme|| (matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
 $('service-theme').addEventListener('click',()=>{const theme=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=theme;try{localStorage.setItem('daegu-theme',theme);}catch{}});
 $('explore-refresh').addEventListener('click',()=>PAGES[page].kinds.forEach(load));
-window.addEventListener('hashchange',showPage);window.addEventListener('offline',()=>{for(const kind of Object.keys(parts))errors[kind]='오프라인입니다. 인터넷 연결 후 다시 시도해 주세요.';for(const kind of PAGES[page].kinds)renderCard(kind);});
+window.addEventListener('hashchange',()=>{if(location.hash!=='#weather-alerts')showPage();});window.addEventListener('offline',()=>{for(const kind of Object.keys(parts))errors[kind]='오프라인입니다. 인터넷 연결 후 다시 시도해 주세요.';for(const kind of PAGES[page].kinds)renderCard(kind);});
 setInterval(()=>{for(const kind of PAGES[page].kinds)if(extraOld(parts[kind]))renderCard(kind);},60000);
+initAlerts(region);
 showPage();

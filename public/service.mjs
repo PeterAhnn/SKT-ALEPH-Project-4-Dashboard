@@ -1,3 +1,7 @@
+import {mountLocation,regionLabel} from './location.mjs';
+import {initAlerts} from './alerts.mjs';
+const region=mountLocation();
+const regionalCacheKey=CACHE_KEY+':'+region.id;
 import { kstDate } from './core.mjs';
 import { KINDS, TITLES, CACHE_KEY, validPart, isPartOld, combineWeather, fetchPart } from './portal-client.mjs';
 
@@ -98,14 +102,14 @@ function renderCurrent() {
   const current = weather?.current;
   $('service-temperature').textContent = current ? numeric(current.temperature) : '—';
   $('service-condition').textContent = current ? (current.rainType === 0 ? '강수 없음' : weatherType(current.weatherCode)[1]) : failure ? '날씨를 받지 못했어요' : '날씨를 확인하고 있어요';
-  $('service-feels').textContent = Number.isFinite(current?.apparentTemperature) ? `체감 ${numeric(current.apparentTemperature)}°C` : '기상청 초단기실황 · 중구 격자';
+  $('service-feels').textContent = Number.isFinite(current?.apparentTemperature) ? `체감 ${numeric(current.apparentTemperature)}°C` : `기상청 초단기실황 · ${regionLabel(region)} 격자`;
   $('service-symbol').replaceChildren(weatherIcon(current?.weatherCode, current?.isDay !== 0));
   const metrics = [
     ['습도', Number.isFinite(current?.relativeHumidity) ? `${current.relativeHumidity}%` : '—'],
     ['바람', Number.isFinite(current?.windSpeed) ? `${numeric(current.windSpeed)} m/s` : '—'],
     ['1시간 강수량', Number.isFinite(current?.precipitation) ? `${numeric(current.precipitation)} mm` : current?.precipitationText || '—'],
   ];
-  $('service-metrics').replaceChildren(...metrics.map(([label, value]) => {
+  $('service-metrics').replaceChildren(...metrics.filter(([,v])=>v!=='—').map(([label, value]) => {
     const item = text('div', '', 'current-metric');
     item.append(text('span', label), text('strong', value));
     return item;
@@ -121,13 +125,14 @@ function renderCurrent() {
   $('service-day-range').replaceChildren();
   if (day) {
     for (const [label, value] of [['최저 기온', day.temperatureMin], ['최고 기온', day.temperatureMax]]) {
+      if (!Number.isFinite(value)) continue;
       const item = text('div');
       item.append(text('span', label), text('strong', `${numeric(value)}°`));
       $('service-day-range').append(item);
     }
     $('service-sun').replaceChildren(text('p', '기상청 단기예보 기준'));
   } else {
-    $('service-day-range').append(text('p', '오늘의 최저·최고 기온 정보 없음', 'empty-weather'));
+    $('service-day-range').replaceChildren();
     $('service-sun').replaceChildren(text('p', '최저·최고는 해당 발표에 포함된 값만 표시합니다.'));
   }
 }
@@ -184,9 +189,9 @@ function renderDaily() {
     const max = text('strong', `${numeric(day.temperatureMax)}°`, 'daily-max');
     min.setAttribute('aria-label', `최저 ${numeric(day.temperatureMin)}도`);
     max.setAttribute('aria-label', `최고 ${numeric(day.temperatureMax)}도`);
-    range.append(min);
+    if (Number.isFinite(day.temperatureMin)) range.append(min);
     if(Number.isFinite(day.temperatureMin)&&Number.isFinite(day.temperatureMax)) range.append(temperatureRange(day.temperatureMin,day.temperatureMax,low,high));
-    range.append(max);
+    if (Number.isFinite(day.temperatureMax)) range.append(max);
     row.append(date, condition, rain, range);
     list.append(row);
   }
@@ -200,18 +205,15 @@ function renderExtras() {
   $('forecast-status').textContent=partNote('forecast');
   $('mid-status').textContent=partNote('mid');
   $('air-status').textContent=partNote('air');
-  $('warnings-status').textContent=partNote('warnings');
+
   const air=parts.air?.data;
   $('air-values').replaceChildren();
   if(air) {
-    for(const [label,value] of [['미세먼지 PM10',air.pm10],['초미세먼지 PM2.5',air.pm25]]) {
+    for(const [label,value] of [['미세먼지 PM10',air.pm10],['초미세먼지 PM2.5',air.pm25]].filter(([,v])=>Number.isFinite(v))) {
       const item=text('div','','air-metric');item.append(text('span',label),text('strong',value===null?'측정값 없음':value+' µg/m³'));$('air-values').append(item);
     }
     $('air-station').textContent=air.station+' 측정소 · 에어코리아 · 실시간 미확정 자료';
   } else $('air-station').textContent='대기질 자료를 기다립니다.';
-  const warnings=parts.warnings?.data;
-  $('warnings-content').textContent=warnings ? '특보 현황\n'+(warnings.current||'원천 내용 없음')+'\n\n예비특보\n'+(warnings.preliminary||'원천 내용 없음') : '특보를 확인하지 못했습니다. 특보 없음으로 판단하지 마세요.';
-  $('warnings-summary').textContent=(errors.warnings||isPartOld(parts.warnings)?'확인 필요 · ':'')+(warnings ? /대구/.test(warnings.current+' '+warnings.preliminary)?'대구 관련 내용이 있는 전국 기상특보':'전국 기상특보 확인' : errors.warnings?'기상특보 수신 실패':'기상특보 확인 중');
   const mid=$('service-mid');mid.replaceChildren();
   for(const day of parts.mid?.data.days||[]) {
     const row=text('article','','mid-row');row.append(text('strong',day.date.slice(5).replace('-','.')),text('span',day.condition||'날씨 정보 없음'),text('span',day.precipitationProbabilityMax===null?'강수확률 없음':'강수 '+day.precipitationProbabilityMax+'%'),text('strong',numeric(day.temperatureMin)+'° / '+numeric(day.temperatureMax)+'°'));mid.append(row);
@@ -221,18 +223,27 @@ function render() {
   weather=combineWeather(parts);
   failure=errors.current?{message:errors.current}:null;
   renderStatus();renderCurrent();renderHourly();renderDaily();renderExtras();
+  document.querySelector('.current-panel').hidden=!parts.current;
+  $('hourly-title').closest('section').hidden=!futureHours().length;
+  $('daily-title').closest('section').hidden=!weather?.daily?.length;
+  $('mid-title').closest('section').hidden=!parts.mid?.data.days?.length;
+  $('air-title').closest('section').hidden=![parts.air?.data.pm10,parts.air?.data.pm25].some(Number.isFinite);
+  document.querySelector('.today-panel').hidden=!futureHours().length&&!currentDay();
+  const unavailable=['forecast','mid','air'].filter(k=>errors[k]&&!parts[k]);
+  $('availability-note').textContent=unavailable.length?`현재 ${unavailable.map(k=>TITLES[k]).join(' · ')} 자료를 받지 못해 숨겼습니다. 새로고침하면 다시 확인합니다.`:'';
+  $('availability-note').hidden=!unavailable.length;
   $('service-source-time').textContent=parts.current?fullTime(parts.current.data.observedAt)+' KST':'아직 수신하지 못했습니다.';
   $('service-fetch-time').textContent=parts.current?fullTime(parts.current.fetchedAt)+' KST':'아직 수신하지 못했습니다.';
-  $('service-forecast-note').textContent='예보는 발표 시각에 따라 달라질 수 있습니다. — 표시는 해당 발표에 값이 없는 항목입니다. 중기예보의 날씨는 대구·경북 권역, 기온은 대구 도시 기준입니다.';
+  $('service-forecast-note').textContent='예보는 발표 시각에 따라 달라질 수 있습니다. 최저·최고 기온은 해당 발표에 포함된 값만 표시합니다. 중기예보의 날씨는 대구·경북 권역, 기온은 대구 도시 기준입니다.';
 }
 async function refresh() {
   if(busy)return;busy=true;lastRefresh=Date.now();renderStatus();
-  await Promise.allSettled(KINDS.map(async kind=>{
+  await Promise.allSettled(KINDS.filter(k=>k!=='warnings').map(async kind=>{
     try {
-      const next=await fetchPart(kind);
+      const next=await fetchPart(kind,fetch,region.id);
       if(!parts[kind]||Date.parse(next.fetchedAt)>=Date.parse(parts[kind].fetchedAt))parts[kind]=next;
       delete errors[kind];
-      try{localStorage.setItem(CACHE_KEY,JSON.stringify(parts));cacheUnavailable=false;}catch{cacheUnavailable=true;}
+      try{localStorage.setItem(regionalCacheKey,JSON.stringify(parts));cacheUnavailable=false;}catch{cacheUnavailable=true;}
     }catch(error){errors[kind]=error.message;}
     render();
   }));
@@ -263,8 +274,12 @@ $('service-source-link').target = '_blank';
 $('service-source-link').rel = 'noopener noreferrer';
 $('service-refresh').addEventListener('click', refresh);
 renderDate();
+$('location-title').textContent=regionLabel(region)+' 날씨';
+$('location-context').textContent=`대구광역시 · 기상청 격자 ${region.nx}, ${region.ny} · KST`;
+$('source-scope').textContent=`${regionLabel(region)} 대표 좌표의 기상청 5km 격자(${region.nx}, ${region.ny}) 실황·예보입니다. 같은 격자는 같은 값이며 동별 관측소 실측을 뜻하지 않습니다. 중기예보는 대구·경북 권역, 기온은 대구 도시 기준입니다. 공항·종관관측·생활지수는 각 카드에 표시된 고정 범위입니다.`;
+initAlerts(region);
 try {
-  const saved = localStorage.getItem(CACHE_KEY);
+  const saved = localStorage.getItem(regionalCacheKey)||(region.id==='2711000000'?localStorage.getItem(CACHE_KEY):null);
   if(saved){const cached=JSON.parse(saved);for(const kind of KINDS)if(validPart(cached[kind],kind))parts[kind]=cached[kind];}
 } catch { /* Invalid caches are ignored; only a validated live success can replace them. */ }
 render();

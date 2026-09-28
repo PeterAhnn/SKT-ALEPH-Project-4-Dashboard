@@ -1,0 +1,30 @@
+{
+  "checks": [
+    {
+      "name": "data cards shown",
+      "pass": true
+    },
+    {
+      "name": "unavailable cards hidden",
+      "pass": true
+    },
+    {
+      "name": "received metrics displayed",
+      "pass": true
+    },
+    {
+      "name": "failure preserves last good card",
+      "pass": true
+    },
+    {
+      "name": "empty response preserves prior value",
+      "pass": true
+    },
+    {
+      "name": "responsive width",
+      "pass": true
+    }
+  ],
+  "passed": 6,
+  "total": 6
+}

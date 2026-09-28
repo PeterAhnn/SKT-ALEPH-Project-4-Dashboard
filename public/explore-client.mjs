@@ -1,4 +1,11 @@
 export const CONFIG = {
+  satVisible:{title:'가시 위성영상',hint:'한반도 · 햇빛에 반사된 구름 · 야간에는 어둡게 보입니다',source:'15058167',type:'images',age:1},
+  satWater:{title:'수증기 위성영상',hint:'한반도 · 대기 수증기 흐름 · 색상은 원본 범례',source:'15058167',type:'images',age:1},
+  satColor:{title:'주야간 합성 위성영상',hint:'한반도 · 주간과 야간 채널을 합성한 구름 영상',source:'15058167',type:'images',age:1},
+  dust:{title:'황사 관측 PM10',hint:'기상청 대구 관측지점 143 · 에어코리아 측정소와 구분',sourceUrl:'https://apihub.kma.go.kr/',type:'metrics',age:2},
+  uvObserved:{title:'실제로 관측한 자외선',hint:'기상청 대구 관측지점 143 · 자외선 예보와 구분',sourceUrl:'https://apihub.kma.go.kr/',type:'metrics',age:2},
+  nowcast:{title:'앞으로 6시간',hint:'선택 지역의 초단기예보 · 기온·하늘·강수량',source:'15084084',type:'nowcast',age:2},
+  surface:{title:'대구 관측소 지금',hint:'ASOS 143 · 실제 관측 · 읍면동 예보와 다른 지점 자료',sourceUrl:'https://apihub.kma.go.kr/',type:'metrics',age:2},
   radar:{title:'강수 레이더',hint:'한반도 합성 영상 · 비구름의 위치와 이동',source:'15056924',type:'images',age:1},
   satellite:{title:'천리안 2A호 위성',hint:'한반도 적외 영상 · 밤에도 볼 수 있는 구름 분포',source:'15058167',type:'images',age:1},
   lightning:{title:'낙뢰 분포',hint:'한반도 · 집계 기간과 색상은 원본 범례 기준',source:'15057256',type:'images',age:1},
@@ -15,9 +22,10 @@ export const CONFIG = {
   airportBrief:{title:'공항 날씨 해설',hint:'대구공항 · 국내 공항기상정보 제공 여부 확인',source:'15110052',type:'airportBrief',age:18},
 };
 export const PAGES = {
-  images:{title:'하늘의 흐름',kicker:'WEATHER IMAGERY',description:'비구름과 위성 영상을 원본 범례와 함께 봅니다.',kinds:['radar','satellite','lightning','chart']},
-  life:{title:'생활 속 날씨',kicker:'DAILY WEATHER',description:'외출 전 살펴보는 대구의 생활지수와 기상 발표.',kinds:['uv','diffusion','pollen','impact','typhoon']},
-  observations:{title:'지나간 날씨',kicker:'OBSERVATIONS',description:'예보와 구분해서 보는 대구의 실제 관측 기록.',kinds:['observations']},
+  near:{title:'앞으로의 날씨',kicker:'NEXT 6 HOURS',description:'선택한 지역의 6시간 기온·하늘·강수 예보.',kinds:['nowcast']},
+  images:{title:'하늘의 흐름',kicker:'WEATHER IMAGERY',description:'비구름과 위성 영상을 원본 범례와 함께 봅니다.',kinds:['radar','satellite','satColor','satVisible','satWater','lightning','chart']},
+  life:{title:'생활 속 날씨',kicker:'DAILY WEATHER',description:'외출 전 살펴보는 대구의 생활지수와 기상 발표.',kinds:['uv','uvObserved','dust','diffusion','pollen']},
+  observations:{title:'지나간 날씨',kicker:'OBSERVATIONS',description:'예보와 구분해서 보는 대구의 실제 관측 기록.',kinds:['surface','observations']},
   airport:{title:'대구공항의 날씨',kicker:'TAE · RKTN',description:'공항의 현재 관측과 앞으로의 이륙 예보를 함께 봅니다.',kinds:['airport','takeoff','taf','airportBrief']},
 };
 export const CACHE_KEY='daegu-explore-cache-v1';
@@ -37,6 +45,8 @@ export function validExtra(p,kind,now=Date.now()){
   if(!c||p?.ok!==true||p.kind!==kind||p.timezone!=='Asia/Seoul'||!date(p.fetchedAt)||Date.parse(p.fetchedAt)>now+300000||!d)return false;
   if(d.type==='empty')return typeof d.message==='string'&&d.message.length<1500;
   if(d.type!==c.type)return false;
+  if(d.type==='metrics')return date(d.observedAt)&&Array.isArray(d.metrics)&&d.metrics.length>0&&d.metrics.every(m=>typeof m.label==='string'&&typeof m.unit==='string'&&num(m.value));
+  if(d.type==='nowcast')return date(d.issuedAt)&&Array.isArray(d.rows)&&d.rows.length>0&&d.rows.every(r=>date(r.time)&&num(r.temperature)&&typeof r.sky==='string');
   if(d.type==='images')return Array.isArray(d.frames)&&d.frames.length>0&&d.frames.length<=12&&d.frames.every(f=>safeImage(f.url)&&typeof f.fileName==='string'&&(f.observedAt===null||date(f.observedAt)));
   if(d.type==='index')return date(d.issuedAt)&&Array.isArray(d.points)&&d.points.length>0&&d.points.every(p=>date(p.time)&&num(p.value)&&p.value>=0&&p.value<=100);
   if(d.type==='observations')return d.stationId==='143'&&date(d.observedAt)&&Array.isArray(d.points)&&d.points.length>0&&d.points.every(p=>date(p.time)&&num(p.temperature)&&p.temperature>=-80&&p.temperature<=60);
@@ -51,15 +61,16 @@ export function extraOld(p,now=Date.now()){
   if(!p)return false;
   const age=CONFIG[p.kind].age*3600000,d=p.data;
   if(now-Date.parse(p.fetchedAt)>age)return true;
-  if(['airport','takeoff','taf','airportBrief','index'].includes(d.type))return now-Date.parse(d.observedAt||d.issuedAt)>age;
+  if(['airport','takeoff','taf','airportBrief','index','metrics','nowcast'].includes(d.type))return now-Date.parse(d.observedAt||d.issuedAt)>age;
   if(d.type==='images'&&d.frames.at(-1).observedAt)return now-Date.parse(d.frames.at(-1).observedAt)>age;
   return false;
 }
-export async function fetchExtra(kind,fetchImpl=fetch){
+export async function fetchExtra(kind,fetchImpl=fetch,regionId=null){
   if(typeof navigator!=='undefined'&&navigator.onLine===false)throw Error('오프라인입니다. 인터넷 연결 후 다시 시도해 주세요.');
   let res,p;
-  try{res=await fetchImpl(`/api/weather?kind=${encodeURIComponent(kind)}`,{signal:AbortSignal.timeout(30000)});p=await res.json();}
+  try{res=await fetchImpl(`/api/weather?kind=${encodeURIComponent(kind)}${regionId?"&region="+encodeURIComponent(regionId):""}`,{signal:AbortSignal.timeout(30000)});p=await res.json();}
   catch(e){throw Error(['TimeoutError','AbortError'].includes(e.name)?'응답이 늦어지고 있습니다. 잠시 후 다시 시도해 주세요.':'자료를 받지 못했습니다. 연결을 확인하고 다시 시도해 주세요.');}
   if(!res.ok||!validExtra(p,kind))throw Error(p?.error?.message||'자료의 형식이 달라 새 값으로 저장하지 않았습니다.');
+  if(regionId&&p.regionId!==regionId)throw Error("선택 지역과 다른 응답을 저장하지 않았습니다.");
   return p;
 }

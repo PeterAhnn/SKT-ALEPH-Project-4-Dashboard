@@ -1,0 +1,22 @@
+return await (async()=>{
+ const checks=[],check=(name,pass)=>checks.push({name,pass:!!pass});
+ const realFetch=window.fetch,region=new URL(location.href).searchParams.get('region')||'2711000000',now=new Date().toISOString();
+ const packet=(kind,data)=>({ok:true,kind,regionId:region,fetchedAt:now,timezone:'Asia/Seoul',data});
+ const current=packet('current',{observedAt:now,temperature:24.5,relativeHumidity:62,windSpeed:2.4,precipitation:0,precipitationText:'0',rainType:0,weatherCode:null});
+ const future=new Date(Date.now()+3600000).toISOString(),date=new Date(Date.now()+9*3600000).toISOString().slice(0,10);
+ const forecast=packet('forecast',{issuedAt:now,hourly:[{time:future,temperature:25,precipitationProbability:20,weatherCode:2}],daily:[{date,temperatureMin:19,temperatureMax:26,precipitationProbabilityMax:20,weatherCode:2}]});
+ const wait=async()=>{for(let i=0;i<250;i++){if(!document.getElementById('service-refresh').disabled)return;await new Promise(r=>setTimeout(r,20));}throw Error('wait');};
+ await wait();
+ let fail=false;
+ window.fetch=async(url,...args)=>{if(!String(url).includes('/api/weather'))return realFetch(url,...args);const kind=new URL(url,location.href).searchParams.get('kind');if(kind==='current')return fail?new Response(JSON.stringify({error:{message:'합성 시험: 응답 지연'}}),{status:503}):new Response(JSON.stringify(current));if(kind==='forecast')return new Response(JSON.stringify(forecast));return new Response(JSON.stringify({error:{message:'합성 시험: 자료 없음'}}),{status:503});};
+ document.getElementById('service-refresh').click();await wait();check('selected region request renders current',document.getElementById('service-temperature').textContent==='24.5');check('empty air panel hidden',document.getElementById('air-title').closest('section').hidden);check('empty mid panel hidden',document.getElementById('mid-title').closest('section').hidden);check('nine district options',document.getElementById('district-select').options.length===9);
+ fail=true;document.getElementById('service-refresh').click();await wait();check('last good current preserved',document.getElementById('service-temperature').textContent==='24.5');check('failed current marked stale',document.getElementById('service-badge').dataset.state==='stale');
+ document.querySelectorAll('.alert-dialog').forEach(x=>x.remove());localStorage.removeItem('daegu-alert-seen-v1');localStorage.removeItem('daegu-alerts-v1');
+ let warning='대구 호우주의보 · 합성 시험 <script>bad()</script>';
+ window.fetch=async url=>{const k=new URL(url,location.href).searchParams.get('kind');return new Response(JSON.stringify(packet(k,k==='warnings'?{issuedAt:now,current:warning,preliminary:'없음'}:{type:'empty',message:'합성 시험: 미발표'})));};
+ const {initAlerts}=await import('/alerts.mjs');initAlerts({id:region});await new Promise(r=>setTimeout(r,200));
+ check('new local bulletin opens modal',!!document.querySelector('.alert-dialog[open]'));check('sticky banner visible',!document.getElementById('alert-banner').hidden);check('raw text safe from injection',document.querySelector('.alert-dialog').textContent.includes('<script>')&&!document.querySelector('.alert-dialog script'));
+ document.querySelector('.alert-dialog>.refresh-button').click();document.querySelector('#weather-alerts .small-button').click();await new Promise(r=>setTimeout(r,100));check('same bulletin does not reopen',!document.querySelector('.alert-dialog[open]'));
+ warning='대구 호우경보 · 합성 시험';document.querySelector('#weather-alerts .small-button').click();await new Promise(r=>setTimeout(r,100));check('updated warning opens new modal',!!document.querySelector('.alert-dialog[open]'));document.querySelector('.alert-dialog>.refresh-button').click();
+ check('no horizontal overflow',document.documentElement.scrollWidth<=innerWidth+1);window.fetch=realFetch;return {checks,passed:checks.filter(x=>x.pass).length,total:checks.length};
+})();

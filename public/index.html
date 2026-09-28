@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="./service.css">
   <link rel="stylesheet" href="./explore.css">
   <script type="module" src="./service.mjs"></script>
+  <link rel="stylesheet" href="./updates.css">
 </head>
 <body>
   <a class="skip-link" href="#main">본문으로 이동</a>
@@ -18,13 +19,16 @@
       <a class="service-brand" href="./"><span aria-hidden="true">◒</span> 오늘의 대구</a>
       <nav class="service-tools" aria-label="화면 설정"><span id="service-date">KST</span><button id="service-theme" type="button" aria-label="화면 테마 변경">◐</button></nav>
     </header>
-    <nav class="service-nav" aria-label="날씨 메뉴"><a href="./" aria-current="page">오늘 날씨</a><a href="./explore.html#images">기상 영상</a><a href="./explore.html#life">생활 날씨</a><a href="./explore.html#observations">관측 기록</a><a href="./explore.html#airport">대구공항</a></nav>
+    <div id="alert-banner" class="alert-banner" hidden></div>
+    <nav class="service-nav" aria-label="날씨 메뉴"><a href="./" aria-current="page">오늘 날씨</a><a href="./explore.html#near">초단기예보</a><a href="./explore.html#images">기상 영상</a><a href="./explore.html#life">생활 날씨</a><a href="./explore.html#observations">관측 기록</a><a href="./explore.html#airport">대구공항</a><a href="#weather-alerts">기상 소식</a></nav>
     <main id="main">
+      <div id="region-picker" class="region-picker" aria-label="대구 지역 선택"></div>
       <section class="location-heading" aria-labelledby="location-title">
-        <div><p class="kicker">DAEGU WEATHER</p><h1 id="location-title">대구의 날씨</h1><p>중구 격자 기준 · 모든 시각 KST</p></div>
+        <div><p class="kicker">DAEGU WEATHER</p><h1 id="location-title">대구의 날씨</h1><p id="location-context">대구 · 모든 시각 KST</p></div>
         <button id="service-refresh" type="button" class="refresh-button">새로고침 <span aria-hidden="true">↻</span></button>
       </section>
       <p id="service-status" class="service-status" role="status" aria-live="polite">현재 날씨를 확인하고 있습니다.</p>
+      <p id="availability-note" class="forecast-note" hidden></p>
       <div class="overview-grid">
         <article class="current-panel" aria-label="현재 날씨">
           <div class="current-panel-top"><span>지금 대구는</span><span id="service-badge" class="state-badge">확인 중</span></div>
@@ -37,7 +41,7 @@
           <div id="service-day-range" class="day-range"></div><div id="service-sun" class="sun-times"></div>
         </aside>
       </div>
-      <section class="forecast-section" aria-labelledby="hourly-title">
+      <section class="forecast-section" aria-labelledby="hourly-title" hidden>
         <div class="section-heading"><h2 id="hourly-title">시간별 예보</h2><p>기온 · 강수확률</p></div>
         <p id="forecast-status" class="forecast-note" role="status"></p><div id="service-hourly" class="hourly-track" tabindex="0" aria-label="24시간 예보, 좌우로 이동"></div>
       </section>
@@ -47,17 +51,18 @@
       </section>
       <section class="forecast-section" aria-labelledby="mid-title"><div class="section-heading"><h2 id="mid-title">중기 전망</h2><p>대구·경북 날씨 · 대구 기온</p></div><p id="mid-status" class="forecast-note" role="status"></p><div id="service-mid" class="daily-list"></div></section>
       <section class="forecast-section" aria-labelledby="air-title"><div class="section-heading"><h2 id="air-title">대기질</h2><p id="air-station">측정소 확인 중</p></div><div id="air-values" class="air-values"></div><p id="air-status" class="forecast-note" role="status"></p></section>
-      <details class="source-details"><summary id="warnings-summary">기상특보 확인 중</summary><div class="source-content"><p>전국 발표 원문입니다. 대구 관련 지역과 발효 시각을 확인하세요.</p><p id="warnings-status" class="forecast-note" role="status"></p><p id="warnings-content" class="warning-bulletin"></p><a href="https://www.data.go.kr/data/15000415/openapi.do" target="_blank" rel="noopener noreferrer">기상청 기상특보 출처 ↗</a></div></details>
+
       <p id="service-forecast-note" class="forecast-note" role="status">예보는 앞으로의 예상이며 달라질 수 있습니다.</p>
       <details class="source-details">
         <summary>데이터 출처와 기준</summary>
         <div class="source-content">
-          <p>기상청 초단기실황과 단기예보의 대구 중구 격자(89, 90) 자료입니다. 격자의 대표 관측값이며 모든 동의 개별 관측값을 뜻하지 않습니다. 바람은 m/s, 강수량은 최근 1시간 mm입니다. 특보는 전국 발표 원문을 제공합니다.</p>
+          <p id="source-scope">기상청 초단기실황과 단기예보의 대구 중구 격자(89, 90) 자료입니다. 격자의 대표 관측값이며 모든 동의 개별 관측값을 뜻하지 않습니다. 바람은 m/s, 강수량은 최근 1시간 mm입니다. 특보는 전국 발표 원문을 제공합니다.</p>
           <dl class="source-meta"><div><dt>원천 기준 시각</dt><dd id="service-source-time">아직 없음</dd></div><div><dt>조회 시각</dt><dd id="service-fetch-time">아직 없음</dd></div><div><dt>기준 시간대</dt><dd>Asia/Seoul (KST)</dd></div></dl>
           <a id="service-source-link" href="https://www.data.go.kr/data/15084084/openapi.do" target="_blank" rel="noopener noreferrer">기상청 단기예보 출처 ↗</a>
           <p><a href="https://www.data.go.kr/data/15059468/openapi.do" target="_blank" rel="noopener noreferrer">기상청 중기예보 출처 ↗</a> · <a href="https://www.data.go.kr/data/15073861/openapi.do" target="_blank" rel="noopener noreferrer">에어코리아 대기질 출처 ↗</a></p>
         </div>
       </details>
+    <section id="weather-alerts" class="alerts-section" aria-labelledby="alerts-title"></section>
     </main>
     <footer class="service-footer"><span>자료: <a href="https://www.data.go.kr/data/15084084/openapi.do" target="_blank" rel="noopener noreferrer">기상청</a> · <a href="https://www.data.go.kr/data/15073861/openapi.do" target="_blank" rel="noopener noreferrer">에어코리아</a></span><a href="./review.html">기록·검증 ↗</a></footer>
   </div>

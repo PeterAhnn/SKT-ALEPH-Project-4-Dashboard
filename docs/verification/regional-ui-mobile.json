@@ -1,0 +1,54 @@
+{
+  "checks": [
+    {
+      "name": "selected region request renders current",
+      "pass": true
+    },
+    {
+      "name": "empty air panel hidden",
+      "pass": true
+    },
+    {
+      "name": "empty mid panel hidden",
+      "pass": true
+    },
+    {
+      "name": "nine district options",
+      "pass": true
+    },
+    {
+      "name": "last good current preserved",
+      "pass": true
+    },
+    {
+      "name": "failed current marked stale",
+      "pass": true
+    },
+    {
+      "name": "new local bulletin opens modal",
+      "pass": true
+    },
+    {
+      "name": "sticky banner visible",
+      "pass": true
+    },
+    {
+      "name": "raw text safe from injection",
+      "pass": true
+    },
+    {
+      "name": "same bulletin does not reopen",
+      "pass": true
+    },
+    {
+      "name": "updated warning opens new modal",
+      "pass": true
+    },
+    {
+      "name": "no horizontal overflow",
+      "pass": true
+    }
+  ],
+  "passed": 12,
+  "total": 12
+}
