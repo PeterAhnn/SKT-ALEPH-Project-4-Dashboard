@@ -12,7 +12,7 @@
 
 - 서비스: https://skt-aleph-project-4-dashboard.vercel.app/
 - 공개 검증: https://skt-aleph-project-4-dashboard.vercel.app/review.html
-- 검증한 소스: https://github.com/PeterAhnn/SKT-ALEPH-Project-4-Dashboard/commit/8cdf80bca9ca47b147fc7073844a400b53f1de29
+- 검증한 소스: https://github.com/PeterAhnn/SKT-ALEPH-Project-4-Dashboard/commit/5bb5f13af8e54bf9aa6faf2e3aa51547369be502
 - 대구 9개 구·군·150개 읍면동, 현재 위치로 가까운 예보 지점 선택, 현재 실황·단기·중기·6시간 초단기예보.
 - 기상 영상·생활지수·종관관측·대구공항, 새 특보/영향예보/태풍의 팝업·상단 고정·모아보기.
 - 값 없는 보조 카드는 숨기고, 이전 정상값이 있으면 보존하며 수신 시각과 오래된 상태를 알린다.
@@ -110,9 +110,3 @@
 SUBMISSION-COPY.txt의 결과물 URL·고정 소스 URL·확인 4줄·판단 3줄을 플랫폼의 해당 칸에 입력한다. PDF 보고서는 보관용이며 플랫폼의 필수 제출 항목으로 추가하지 않는다. 날짜·해시·과제 버전은 플랫폼이 기록한다.
 
 현재 자료로 제출은 가능하다. 공식 계약의 플랫폼 증거까지 충족하려면 서로 다른 실제 KST 날짜에 공개 원천을 조회하고 선택 과정 기록을 각각 남긴 뒤 그 두 실제 자료와 변화값을 대조해야 한다. 과거 앱 자료를 오늘 입력해도 과거 서버 날짜가 되지 않는다. 기존 날짜·값을 조작하거나 지금 두 번 입력해 이틀로 대신하지 않는다. 9월 28일 첫날 과정 기록은 생성했다. 둘째 날은 9월 29일 이후 실제 조회로 이어간다. 최종 과제 제출 버튼은 누르지 않았다.
-
-## 9. 오늘 등록 및 화면 보고서 갱신
-
-2026-09-28 최신 공개 원천을 실제 수집하여 플랫폼 첫날 1개를 등록했다. 값 24.7°C, 원천 17:00 KST, 조회 17:14:50.222 KST. 원문과 대응 목록은 public/data/platform-evidence.json에 보존했다. 이 목록은 플랫폼이 발급한 영수증 파일을 가장한 것이 아니라 앱 측 대응 자료이다. 등록 성공 문구와 기록 1개, 날짜 표시를 UI로 확인했다. 새 자료 포함 소스: https://github.com/PeterAhnn/SKT-ALEPH-Project-4-Dashboard/commit/5bb5f13af8e54bf9aa6faf2e3aa51547369be502
-
-PDF 앞 2쪽은 실제 공개 화면과 공식 합성 재생 캡처다. 로그인된 플랫폼 캡처는 날짜·기록 개수 영역만 담았다. docs/NEXT-DAY-CHECK.md에 둘째 실제 날짜의 수집·등록·원문 대조·제출 문안 갱신 절차를 남겼다. 최종 제출은 하지 않았다.
