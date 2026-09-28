@@ -11,7 +11,7 @@
   ],
   "personalInformationIncluded": false,
   "recordsCreatedByAgent": 1,
-  "submittedByAgent": false,
+  "submittedByAgent": true,
   "recordDateKST": "2026-09-28",
   "submittedReading": {
     "value": 24.7,
@@ -24,5 +24,9 @@
     "kind": "real"
   },
   "evidencePath": "public/data/evidence/2026-09-28T08-14-50.222Z.json",
-  "secondActualDayPending": true
+  "secondActualDayPending": true,
+  "submissionStatus": "강사 승인 대기",
+  "correctedReportBytes": 480336,
+  "submissionProof": "docs/verification/t04-submitted.png",
+  "submissionConfirmation": "T04 제출을 마쳤습니다"
 }
