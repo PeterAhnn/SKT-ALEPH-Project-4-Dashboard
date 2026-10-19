@@ -1,10 +1,10 @@
 {
   "version": 2,
   "lastGood": {
-    "value": 23.5,
-    "observedAt": "2026-10-18T13:30:00+09:00",
-    "fetchedAt": "2026-10-18T04:34:18.091Z",
-    "kstDate": "2026-10-18",
+    "value": 21.3,
+    "observedAt": "2026-10-19T13:30:00+09:00",
+    "fetchedAt": "2026-10-19T04:40:59.262Z",
+    "kstDate": "2026-10-19",
     "sourceId": "open-meteo-daegu",
     "sourceUrl": "https://api.open-meteo.com/v1/forecast?latitude=35.8714&longitude=128.6014&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m&hourly=temperature_2m,precipitation_probability,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunrise,sunset&timezone=Asia%2FSeoul&forecast_days=7",
     "unit": "°C",
@@ -276,6 +276,16 @@
       "observedAt": "2026-10-18T13:30:00+09:00",
       "fetchedAt": "2026-10-18T04:34:18.091Z",
       "kstDate": "2026-10-18",
+      "sourceId": "open-meteo-daegu",
+      "sourceUrl": "https://api.open-meteo.com/v1/forecast?latitude=35.8714&longitude=128.6014&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m&hourly=temperature_2m,precipitation_probability,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunrise,sunset&timezone=Asia%2FSeoul&forecast_days=7",
+      "unit": "°C",
+      "kind": "real"
+    },
+    {
+      "value": 21.3,
+      "observedAt": "2026-10-19T13:30:00+09:00",
+      "fetchedAt": "2026-10-19T04:40:59.262Z",
+      "kstDate": "2026-10-19",
       "sourceId": "open-meteo-daegu",
       "sourceUrl": "https://api.open-meteo.com/v1/forecast?latitude=35.8714&longitude=128.6014&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m&hourly=temperature_2m,precipitation_probability,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunrise,sunset&timezone=Asia%2FSeoul&forecast_days=7",
       "unit": "°C",
